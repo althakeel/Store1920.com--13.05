@@ -243,7 +243,8 @@ useEffect(() => {
     const savedData = localStorage.getItem(CHECKOUT_FORM_STORAGE_KEY);
     if (savedData) {
       try {
-        setFormData(JSON.parse(savedData));
+        const parsed = JSON.parse(savedData);
+        setFormData(parsed);
         return; // Stop here, don't fetch from WooCommerce
       } catch (err) {
         console.warn('Failed to parse saved checkout data:', err);

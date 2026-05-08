@@ -125,10 +125,10 @@ const PaymentMethods = ({
 console.log('Auth user ID:', user?.id);
 
 
-  // Set Tabby as default if nothing is selected and subtotal > 0
+  // Set COD as default if nothing is selected and subtotal > 0
   useEffect(() => {
     if (!selectedMethod && subtotal > 0) {
-      onMethodSelect('tabby', 'Tabby', TabbyIcon);
+      onMethodSelect('cod', 'Cash on Delivery', CashIcon);
     }
   }, [selectedMethod, subtotal, onMethodSelect]);
 
@@ -230,6 +230,17 @@ console.log('Auth user ID:', user?.id);
     (hasOnlyStaticProducts && !hasNonStaticProducts && staticProductIds.length > 0) || 
     allItemsSupportCOD;
 
+  // Set default payment method: COD if available, otherwise Card
+  useEffect(() => {
+    if (!selectedMethod && subtotal > 0) {
+      if (isCodAvailableForCart) {
+        onMethodSelect('cod', 'Cash on Delivery', CashIcon);
+      } else {
+        onMethodSelect('card', 'Credit/Debit Card', CardIcon);
+      }
+    }
+  }, [selectedMethod, subtotal, onMethodSelect, isCodAvailableForCart]);
+
   console.log('💳 COD Availability Check:', {
     cartItemCount: cartItems.length,
     codRelevantItemCount: codRelevantItems.length,
@@ -247,14 +258,8 @@ console.log('Auth user ID:', user?.id);
   const canUseWallet =
   Number(walletBalance || 0) >= amount &&
   amount > 0;
-  useEffect(() => {
-    if (selectedMethod === 'cod' && !isCodAvailableForCart) {
-      onMethodSelect('card', 'Credit/Debit Card', CardIcon);
-    }
-  }, [cartItems, selectedMethod, onMethodSelect, isCodAvailableForCart]);
 
   const installmentAmounts = getInstallmentAmounts(amount);
-
 
 useEffect(() => {
   console.log('Wallet fetch triggered');
