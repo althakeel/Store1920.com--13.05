@@ -112,6 +112,7 @@ const PaymentMethods = ({
   const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
   const [confirmationMethod, setConfirmationMethod] = useState(null);
   const [isConfirming, setIsConfirming] = useState(false);
+  const [showCodUpsell, setShowCodUpsell] = useState(false);
   const [walletBalance, setWalletBalance] = React.useState(null);
   const [walletLoading, setWalletLoading] = React.useState(true);
   const [savedCards, setSavedCards] = useState([]);
@@ -148,22 +149,37 @@ console.log('Auth user ID:', user?.id);
     methodLogo = null,
     extra = {}
   ) => {
-    if (methodId === 'card') {
-      setConfirmationMethod({
-        id: methodId,
-        title: methodTitle,
-        logo: methodLogo,
-        extra,
-      });
-      setShowPaymentConfirmation(true);
-    } else {
-      onMethodSelect(methodId, methodTitle, methodLogo, extra);
-    }
+    onMethodSelect(methodId, methodTitle, methodLogo, extra);
   };
 
   const handleConfirmationClose = () => {
     setShowPaymentConfirmation(false);
     setConfirmationMethod(null);
+  };
+
+  // COD upsell: show popup, "PAY NOW" = switch to card, "NO THANKS" = stay on COD
+  const handleCodSelect = () => {
+    setShowCodUpsell(true);
+  };
+
+  const handleCodUpsellPayNow = () => {
+    setShowCodUpsell(false);
+    // Switch to card payment
+    setConfirmationMethod({
+      id: 'card',
+      title: 'Credit/Debit Card',
+      logo: CardIcon,
+      extra: {
+        selectedSavedCardId: resolvedSelectedSavedCardId,
+        selectedSavedCardHint: buildSavedCardHint(selectedSavedCard),
+      },
+    });
+    setShowPaymentConfirmation(true);
+  };
+
+  const handleCodUpsellNoThanks = () => {
+    setShowCodUpsell(false);
+    onMethodSelect('cod', 'Cash on Delivery', CashIcon);
   };
 
   const handleConfirmationConfirm = () => {
@@ -326,6 +342,49 @@ console.log('Wallet loading:', walletLoading);
         isLoading={isConfirming}
       />
 
+      {/* COD Upsell Popup */}
+      {showCodUpsell && (
+        <div className="pcp-overlay" onClick={handleCodUpsellNoThanks}>
+          <div className="pcp-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="pcp-top">
+              <div className="pcp-check">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="12" fill="white" fillOpacity="0.2"/>
+                  <path d="M6 12.5L10 16.5L18 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h2 className="pcp-title">Your order is confirmed! 🎉</h2>
+              <p className="pcp-subtitle">Get an extra <strong>5% OFF</strong> when you pay now!</p>
+            </div>
+            <div className="pcp-breakdown">
+              <div className="pcp-row">
+                <span className="pcp-row-label">Original Amount:</span>
+                <span className="pcp-row-value pcp-strikethrough">AED {Number(subtotal).toFixed(2)}</span>
+              </div>
+              <div className="pcp-row">
+                <span className="pcp-row-label pcp-green">5% Discount:</span>
+                <span className="pcp-row-value pcp-green">- AED {(subtotal * 0.05).toFixed(2)}</span>
+              </div>
+              <div className="pcp-divider" />
+              <div className="pcp-row">
+                <span className="pcp-total-label">Pay Now:</span>
+                <span className="pcp-total-value pcp-green">AED {(subtotal * 0.95).toFixed(2)}</span>
+              </div>
+            </div>
+            <button className="pcp-pay-btn" onClick={handleCodUpsellPayNow}>
+              ⚡ PAY NOW
+              <span className="pcp-card-icons">
+                <img src={MasterCardIcon} alt="Mastercard" />
+                <img src={AmexIcon} alt="Amex" />
+              </span>
+            </button>
+            <button className="pcp-no-thanks" onClick={handleCodUpsellNoThanks}>
+              NO, THANKS
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="payment-methods-list">
 
         {/* Card Payment */}
@@ -441,7 +500,7 @@ console.log('Wallet loading:', walletLoading);
               id="cod"
               name="payment-method"
               checked={selectedMethod === 'cod'}
-              onChange={() => onMethodSelect('cod', 'Cash on Delivery', CashIcon)}
+              onChange={handleCodSelect}
             />
             <label htmlFor="cod" className="payment-method-label">
               <img src={CashIcon} alt="Cash on Delivery" className="payment-icon" />

@@ -408,11 +408,10 @@ console.log("✅ Wallet Payment Response =>", data);
     };
   };
 
-  // Handle "Pay Now" from order confirmed popup
+  // Handle "Pay Now" from order confirmed popup - go directly to card payment
   const handlePayNowFromConfirmation = () => {
-    // Show payment method selector
     setShowOrderConfirmed(false);
-    setShowPaymentSelector(true);
+    handleSelectPaymentMethod('card', confirmedOrderTotal * 0.95, confirmedOrderId);
   };
 
   // Handle close order confirmed popup
@@ -558,6 +557,7 @@ console.log("✅ Wallet Payment Response =>", data);
         onClose={handleCloseOrderConfirmed}
         onPayNow={handlePayNowFromConfirmation}
         orderId={confirmedOrderId}
+        total={confirmedOrderTotal}
         isLoading={false}
         paymentMethod={formData.paymentMethod}
       />

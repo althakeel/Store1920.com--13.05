@@ -1,6 +1,11 @@
-/* Payment Confirmation Popup Styles */
+/* Payment Confirmation Popup - redesigned */
 
+/* Legacy classes kept for safety */
 .payment-confirmation-overlay {
+  display: none;
+}
+
+.pcp-overlay {
   position: fixed;
   top: 0;
   left: 0;

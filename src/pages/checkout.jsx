@@ -199,7 +199,12 @@ export default function CheckoutPage() {
     const savedData = localStorage.getItem(CHECKOUT_FORM_STORAGE_KEY);
     if (savedData) {
       try {
-        setFormData(JSON.parse(savedData));
+        const parsed = JSON.parse(savedData);
+        // Force COD as default payment method
+        parsed.paymentMethod = 'cod';
+        parsed.paymentMethodTitle = 'Cash On Delivery';
+        parsed.paymentMethodLogo = null;
+        setFormData(parsed);
         return;
       } catch {}
     }
@@ -213,6 +218,9 @@ export default function CheckoutPage() {
       setFormData((prev) => ({
         ...prev,
         ...mapAccountAddressToCheckoutForm(savedAddress, user?.email || ''),
+        paymentMethod: 'cod',
+        paymentMethodTitle: 'Cash On Delivery',
+        paymentMethodLogo: null,
       }));
     }
   }, [user?.email, user?.id]);
@@ -244,6 +252,10 @@ useEffect(() => {
     if (savedData) {
       try {
         const parsed = JSON.parse(savedData);
+        // Force COD as default payment method
+        parsed.paymentMethod = 'cod';
+        parsed.paymentMethodTitle = 'Cash On Delivery';
+        parsed.paymentMethodLogo = null;
         setFormData(parsed);
         return; // Stop here, don't fetch from WooCommerce
       } catch (err) {
@@ -256,6 +268,10 @@ useEffect(() => {
 
     if (savedAddress) {
       const mappedData = mapAccountAddressToCheckoutForm(savedAddress, user.email || '');
+      // Force COD as default payment method
+      mappedData.paymentMethod = 'cod';
+      mappedData.paymentMethodTitle = 'Cash On Delivery';
+      mappedData.paymentMethodLogo = null;
       setFormData(mappedData);
       localStorage.setItem(CHECKOUT_FORM_STORAGE_KEY, JSON.stringify(mappedData));
       return;
