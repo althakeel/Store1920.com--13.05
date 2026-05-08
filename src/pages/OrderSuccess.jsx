@@ -63,9 +63,12 @@ export default function OrderSuccess() {
   const { clearCart } = useCart();
   
   useEffect(() => {
-    //Clear cart when success page loads
-    clearCart();
-  }, [clearCart]);
+    // Clear cart only for completed success flow.
+    // Keep cart for cancelled payments so users can start a new order with same items.
+    if (!isCancelled) {
+      clearCart();
+    }
+  }, [clearCart, isCancelled]);
 
   useEffect(() => {
     async function fetchOrder() {
