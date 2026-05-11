@@ -20,6 +20,9 @@ const getFeeDiscountTotal = (feeLines = []) =>
     return feeTotal < 0 ? sum + Math.abs(feeTotal) : sum;
   }, 0);
 
+const SHIPPING_FREE_THRESHOLD = 100;
+const SHIPPING_UNDER_THRESHOLD_FEE = 15;
+
 const isFreeGiftItem = (item) =>
   Array.isArray(item?.meta_data) &&
   item.meta_data.some(
@@ -81,7 +84,7 @@ export default function OrderConfirmation() {
   const couponDiscountTotal = getSafeAmount(order.discount_total);
   const feeDiscountTotal = getFeeDiscountTotal(order.fee_lines);
   const discountTotal = couponDiscountTotal + feeDiscountTotal;
-  const shippingTotal = getSafeAmount(order.shipping_total);
+  const shippingTotal = itemsSubtotal >= SHIPPING_FREE_THRESHOLD ? 0 : SHIPPING_UNDER_THRESHOLD_FEE;
   const isCOD = order?.payment_method === 'cod' || order?.payment_method_title === 'Cash on Delivery';
   const expectedCodTotal = itemsSubtotal + shippingTotal;
   const orderTotal = getSafeAmount(order.total);
@@ -90,7 +93,7 @@ export default function OrderConfirmation() {
     isCOD &&
     !hasAnyDiscount &&
     orderTotal + 0.01 < expectedCodTotal;
-  const displayTotal = isLikelyResidualCodUpsellDiscount ? expectedCodTotal : orderTotal;
+  const displayTotal = isLikelyResidualCodUpsellDiscount ? expectedCodTotal : (itemsSubtotal + shippingTotal);
 
   return (
     <div className="order-confirmation-containe">
@@ -209,10 +212,10 @@ export default function OrderConfirmation() {
               <span className="summary-value">{discountTotal > 0 ? `-AED ${discountTotal.toFixed(2)}` : 'AED 0.00'}</span>
             </div>
             
-            {order.shipping_total && parseFloat(order.shipping_total) > 0 && (
+            {shippingTotal > 0 && (
               <div className="summary-row">
                 <span className="summary-label">Shipping & handling</span>
-                <span className="summary-value">{formatPrice(order.shipping_total)}</span>
+                <span className="summary-value">{formatPrice(shippingTotal)}</span>
               </div>
             )}
             

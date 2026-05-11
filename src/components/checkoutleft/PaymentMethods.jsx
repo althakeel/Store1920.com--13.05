@@ -113,7 +113,6 @@ const PaymentMethods = ({
   const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
   const [confirmationMethod, setConfirmationMethod] = useState(null);
   const [isConfirming, setIsConfirming] = useState(false);
-  const [showCodUpsell, setShowCodUpsell] = useState(false);
   const [walletBalance, setWalletBalance] = React.useState(null);
   const [walletLoading, setWalletLoading] = React.useState(true);
   const [savedCards, setSavedCards] = useState([]);
@@ -177,40 +176,18 @@ console.log('Auth user ID:', user?.id);
     setConfirmationMethod(null);
   };
 
-  // COD upsell: show popup, "PAY NOW" = switch to card, "NO THANKS" = stay on COD
+  // COD selection should not open any upsell popup.
   const handleCodSelect = () => {
-    setShowCodUpsell(true);
-  };
-
-  const handleCodUpsellPayNow = () => {
-    setShowCodUpsell(false);
-    // Mark that we're initiating payment to track returns
-    sessionStorage.setItem('paymentRedirectInitiated', 'true');
-    sessionStorage.setItem('paymentStartTime', Date.now().toString());
-    
-    // ✅ APPLY 5% DISCOUNT for card payment
-    const discount5Percent = subtotal * 0.05;
-    if (onDiscountChange) {
-      onDiscountChange(discount5Percent);
-      console.log('💰 Applied 5% discount:', discount5Percent);
-    }
-    
-    // Switch to card payment
-    setConfirmationMethod({
-      id: 'card',
-      title: 'Credit/Debit Card',
-      logo: CardIcon,
-      extra: {
-        selectedSavedCardId: resolvedSelectedSavedCardId,
-        selectedSavedCardHint: buildSavedCardHint(selectedSavedCard),
-      },
-    });
-    setShowPaymentConfirmation(true);
-  };
-
-  const handleCodUpsellNoThanks = () => {
-    setShowCodUpsell(false);
+    // Always switch to COD immediately so radio state is consistent
+    // even after switching from Tabby/Tamara/Card.
     onMethodSelect('cod', 'Cash on Delivery', CashIcon);
+
+    // Clear any in-progress pay-now redirect flags and discount remnants.
+    sessionStorage.removeItem('paymentRedirectInitiated');
+    sessionStorage.removeItem('paymentStartTime');
+    if (onDiscountChange) {
+      onDiscountChange(0);
+    }
   };
 
   const closePopupWithoutClearingFlags = () => {
@@ -337,12 +314,6 @@ console.log('Auth user ID:', user?.id);
             setConfirmationMethod(null);
           }
           
-          // Also close COD upsell popup if open
-          if (showCodUpsell) {
-            console.log('❌ Closing COD upsell popup');
-            setShowCodUpsell(false);
-          }
-          
           // Reset payment method back to COD to restore original price (without 5% off)
           if (selectedMethod === 'card' && isCodAvailableForCart) {
             console.log('↩️ Resetting payment method back to COD');
@@ -354,7 +325,7 @@ console.log('Auth user ID:', user?.id);
     
     // Check on mount and when payment-related states change
     checkReturnFromPayment();
-  }, [selectedMethod, showPaymentConfirmation, showCodUpsell, onMethodSelect, isCodAvailableForCart, onDiscountChange]);
+  }, [selectedMethod, showPaymentConfirmation, onMethodSelect, isCodAvailableForCart, onDiscountChange]);
 
   const amount = Number(subtotal) || 0;
   const tamaraMinAmount = 99;
@@ -430,49 +401,6 @@ console.log('Wallet loading:', walletLoading);
         discount={0}
         isLoading={isConfirming}
       />
-
-      {/* COD Upsell Popup */}
-      {showCodUpsell && (
-        <div className="pcp-overlay" onClick={handleCodUpsellNoThanks}>
-          <div className="pcp-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="pcp-top">
-              <div className="pcp-check">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="12" fill="white" fillOpacity="0.2"/>
-                  <path d="M6 12.5L10 16.5L18 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <h2 className="pcp-title">Your order is confirmed! 🎉</h2>
-              <p className="pcp-subtitle">Get an extra <strong>5% OFF</strong> when you pay now!</p>
-            </div>
-            <div className="pcp-breakdown">
-              <div className="pcp-row">
-                <span className="pcp-row-label">Original Amount:</span>
-                <span className="pcp-row-value pcp-strikethrough">AED {Number(subtotal).toFixed(2)}</span>
-              </div>
-              <div className="pcp-row">
-                <span className="pcp-row-label pcp-green">5% Discount:</span>
-                <span className="pcp-row-value pcp-green">- AED {(subtotal * 0.05).toFixed(2)}</span>
-              </div>
-              <div className="pcp-divider" />
-              <div className="pcp-row">
-                <span className="pcp-total-label">Pay Now:</span>
-                <span className="pcp-total-value pcp-green">AED {(subtotal * 0.95).toFixed(2)}</span>
-              </div>
-            </div>
-            <button className="pcp-pay-btn" onClick={handleCodUpsellPayNow}>
-              ⚡ PAY NOW
-              <span className="pcp-card-icons">
-                <img src={MasterCardIcon} alt="Mastercard" />
-                <img src={AmexIcon} alt="Amex" />
-              </span>
-            </button>
-            <button className="pcp-no-thanks" onClick={handleCodUpsellNoThanks}>
-              NO, THANKS
-            </button>
-          </div>
-        </div>
-      )}
 
       <div className="payment-methods-list">
 

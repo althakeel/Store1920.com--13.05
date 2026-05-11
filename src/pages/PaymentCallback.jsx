@@ -330,11 +330,11 @@ export default function PaymentCallback() {
                 }}>
                   <span style={{ fontSize: 13, color: '#666' }}>Subtotal:</span>
                   <span style={{ fontSize: 13, fontWeight: 500, color: '#222' }}>
-                    AED {parseFloat(order.total - (order.shipping_total || 0)).toFixed(2)}
+                    AED {parseFloat(order.total - (order.total >= 100 ? 0 : 15)).toFixed(2)}
                   </span>
                 </div>
                 
-                {order.shipping_total && parseFloat(order.shipping_total) > 0 && (
+                {order.total < 100 && (
                   <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -342,7 +342,7 @@ export default function PaymentCallback() {
                   }}>
                     <span style={{ fontSize: 13, color: '#666' }}>Shipping:</span>
                     <span style={{ fontSize: 13, fontWeight: 500, color: '#222' }}>
-                      AED {parseFloat(order.shipping_total).toFixed(2)}
+                      AED 15.00
                     </span>
                   </div>
                 )}

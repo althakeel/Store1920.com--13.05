@@ -57,7 +57,7 @@ const fetchWithAuth = async (endpoint, options = {}) => {
 };
 
 const sanitizeField = (value) => (value && value.trim() ? value : 'NA');
-const DELIVERY_FEE = 13;
+const DELIVERY_FEE = 15;
 const FREE_SHIPPING_THRESHOLD = 100;
 const FREE_GIFT_THRESHOLD = 150;
 const FREE_GIFT_SLUGS = ['nexso-curly-hair-brush', 'nexso-black-mouth-tape-30pcs-hypoallergenic-snore-strips'];
@@ -568,7 +568,12 @@ useEffect(() => {
         floor: sanitizeField(shipping.floor),
       },
       line_items,
-      shipping_lines: formData.shippingMethodId ? [{ method_id: formData.shippingMethodId }] : [],
+      shipping_lines:
+        discountedDynamicSubtotal >= FREE_SHIPPING_THRESHOLD
+          ? []
+          : formData.shippingMethodId
+            ? [{ method_id: formData.shippingMethodId }]
+            : [],
       fee_lines,
       meta_data: [
         { key: '_from_react_checkout', value: true },

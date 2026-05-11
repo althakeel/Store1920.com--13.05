@@ -5,6 +5,31 @@ import { useCart } from "../contexts/CartContext";
 import { getOrderById } from "../api/woocommerce";
 import "../assets/styles/OrderSuccess.css";
 
+const WC_API_BASE = 'https://db.store1920.com/wp-json/wc/v3';
+const WC_CK = 'ck_e09e8cedfae42e5d0a37728ad6c3a6ce636695dd';
+const WC_CS = 'cs_2d41bc796c7d410174729ffbc2c230f27d6a1eda';
+
+const wcFetchWithAuth = async (endpoint, options = {}) => {
+  const url = `${WC_API_BASE}/${endpoint}`;
+  const authHeader = 'Basic ' + btoa(`${WC_CK}:${WC_CS}`);
+
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      Authorization: authHeader,
+      'Content-Type': 'application/json',
+      ...(options.headers || {}),
+    },
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.message || `Woo API ${response.status}`);
+  }
+
+  return response.json();
+};
+
 const formatPrice = (value) => {
   const amount = Number.parseFloat(value);
   const safeAmount = Number.isFinite(amount) ? Math.max(0, amount) : 0;
@@ -21,6 +46,64 @@ const getFeeDiscountTotal = (feeLines = []) =>
     const feeTotal = getSafeAmount(fee?.total);
     return feeTotal < 0 ? sum + Math.abs(feeTotal) : sum;
   }, 0);
+
+const SHIPPING_FREE_THRESHOLD = 100;
+const SHIPPING_UNDER_THRESHOLD_FEE = 15;
+
+const getNormalizedOrderTotals = (orderData) => {
+  const itemsSubtotal = (orderData?.line_items || []).reduce((sum, item) => {
+    const isGift =
+      Array.isArray(item?.meta_data) &&
+      item.meta_data.some(
+        (meta) =>
+          meta?.key === '_store1920_free_gift' &&
+          String(meta?.value).toLowerCase() === 'true'
+      );
+
+    if (isGift) return sum;
+    return sum + getSafeAmount(item?.total);
+  }, 0);
+
+  const shippingTotal = itemsSubtotal >= SHIPPING_FREE_THRESHOLD ? 0 : SHIPPING_UNDER_THRESHOLD_FEE;
+  const couponDiscountTotal = getSafeAmount(orderData?.discount_total);
+  const feeDiscountTotal = getFeeDiscountTotal(orderData?.fee_lines);
+  const discountTotal = couponDiscountTotal + feeDiscountTotal;
+  const expectedCodTotal = itemsSubtotal + shippingTotal;
+  const rawOrderTotal = getSafeAmount(orderData?.total);
+  const isCOD =
+    String(orderData?.payment_method || '').toLowerCase() === 'cod' ||
+    String(orderData?.payment_method_title || '').toLowerCase() === 'cash on delivery';
+  const couponLinesCount = Array.isArray(orderData?.coupon_lines) ? orderData.coupon_lines.length : 0;
+
+  // Detect stale COD pay-now 5% artifact: COD order, no real coupon, and discount ~= 5%.
+  const looksLikeStaleCodPayNowDiscount =
+    isCOD &&
+    couponLinesCount === 0 &&
+    couponDiscountTotal === 0 &&
+    feeDiscountTotal > 0 &&
+    Math.abs(feeDiscountTotal - itemsSubtotal * 0.05) < 0.05;
+
+  const isLikelyResidualCodUpsellDiscount =
+    isCOD &&
+    (looksLikeStaleCodPayNowDiscount || (discountTotal <= 0 && rawOrderTotal + 0.01 < expectedCodTotal));
+
+  const displayTotal = isLikelyResidualCodUpsellDiscount
+    ? expectedCodTotal
+    : (itemsSubtotal + shippingTotal);
+
+  return {
+    itemsSubtotal,
+    shippingTotal,
+    couponDiscountTotal,
+    feeDiscountTotal,
+    discountTotal,
+    expectedCodTotal,
+    rawOrderTotal,
+    displayTotal,
+    isCOD,
+    isLikelyResidualCodUpsellDiscount,
+  };
+};
 
 const isFreeGiftItem = (item) =>
   Array.isArray(item?.meta_data) &&
@@ -67,6 +150,104 @@ export default function OrderSuccess() {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const { clearCart } = useCart();
+
+  const restoreCodOrderIfNeeded = async (orderData) => {
+    const normalized = getNormalizedOrderTotals(orderData);
+
+    if (!normalized.isLikelyResidualCodUpsellDiscount) {
+      return orderData;
+    }
+
+    const safeFeeLines = Array.isArray(orderData?.fee_lines) ? orderData.fee_lines : [];
+    const nonDiscountFeeLines = safeFeeLines
+      .filter((fee) => getSafeAmount(fee?.total) >= 0)
+      .map((fee) => ({
+        ...(fee?.id ? { id: fee.id } : {}),
+        name: fee?.name || 'Fee',
+        total: getSafeAmount(fee?.total).toFixed(2),
+      }));
+
+    try {
+      await wcFetchWithAuth(`orders/${orderData.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          payment_method: 'cod',
+          payment_method_title: 'Cash on Delivery',
+          set_paid: false,
+          fee_lines: nonDiscountFeeLines,
+          coupon_lines: [],
+          meta_data: [
+            {
+              key: '_store1920_cod_total_restored_on_success',
+              value: new Date().toISOString(),
+            },
+          ],
+        }),
+      });
+
+      const refreshed = await getOrderById(orderData.id);
+      return refreshed || orderData;
+    } catch (error) {
+      console.error('Failed to restore COD order total on success page:', error);
+      return orderData;
+    }
+  };
+
+  const sendFinalOrderMessage = async (orderData) => {
+    if (!orderData?.id) return;
+
+    const messageSentKey = `order_message_sent_${orderData.id}`;
+    if (sessionStorage.getItem(messageSentKey) === '1') return;
+
+    const normalized = getNormalizedOrderTotals(orderData);
+    const codFinalAmount = Number((normalized.itemsSubtotal + normalized.shippingTotal).toFixed(2));
+    const shippingFreeTotal = Number(normalized.itemsSubtotal.toFixed(2));
+
+    const items = (orderData.line_items || []).map((item) => {
+      const quantity = Number.parseInt(item?.quantity, 10) || 1;
+      const lineTotal = getSafeAmount(item?.total);
+
+      return {
+        id: item?.product_id || item?.variation_id || item?.id || 0,
+        name: item?.name || 'Product',
+        display_name: item?.name || 'Product',
+        bundle_type: '',
+        price: quantity > 0 ? Number((lineTotal / quantity).toFixed(2)) : 0,
+        quantity,
+      };
+    });
+
+    // If backend computes amount from line items, ensure COD payload cannot carry stale 5% total.
+    // We keep item list unchanged, but pass explicit normalized totals in multiple commonly used fields.
+
+    try {
+      await fetch('https://db.store1920.com/wp-json/custom/v1/capture-order-items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order_id: orderData.id,
+          customer: {
+            first_name: orderData?.billing?.first_name || orderData?.shipping?.first_name || '',
+            email: orderData?.billing?.email || orderData?.shipping?.email || '',
+            phone_number: orderData?.billing?.phone || orderData?.shipping?.phone || '',
+          },
+          items,
+          final_total: codFinalAmount,
+          total: shippingFreeTotal,
+          amount: shippingFreeTotal,
+          order_total: shippingFreeTotal,
+          shipping_total: 0,
+          shipping: 0,
+          delivery_fee: 0,
+          source: 'order_success',
+          payment_method: orderData?.payment_method || '',
+        }),
+      });
+      sessionStorage.setItem(messageSentKey, '1');
+    } catch (error) {
+      console.error('Failed to send final order message:', error);
+    }
+  };
   
   useEffect(() => {
     // Clear cart only for completed success flow.
@@ -99,7 +280,11 @@ export default function OrderSuccess() {
           return;
         }
         
-        setOrder(data);
+        const normalizedOrder = await restoreCodOrderIfNeeded(data);
+        setOrder(normalizedOrder);
+        if (!isCancelled) {
+          await sendFinalOrderMessage(normalizedOrder);
+        }
         setLoading(false);
       } catch (error) {
         console.error('Error fetching order:', error);
@@ -161,25 +346,13 @@ export default function OrderSuccess() {
   }
 
   const freeGiftCount = (order.line_items || []).filter(isFreeGiftItem).length;
-  const itemsSubtotal = (order.line_items || []).reduce((sum, item) => {
-    if (isFreeGiftItem(item)) return sum;
-    return sum + getSafeAmount(item.total);
-  }, 0);
-  const couponDiscountTotal = getSafeAmount(order.discount_total);
-  const feeDiscountTotal = getFeeDiscountTotal(order.fee_lines);
-  const discountTotal = couponDiscountTotal + feeDiscountTotal;
-  const shippingTotal = getSafeAmount(order.shipping_total);
-
-  // Show cancellation message if order is cancelled (but NOT if it's COD)
-  const isCOD = order?.payment_method === 'cod' || order?.payment_method_title === 'Cash on Delivery';
-  const expectedCodTotal = itemsSubtotal + shippingTotal;
-  const orderTotal = getSafeAmount(order.total);
-  const hasAnyDiscount = discountTotal > 0;
-  const isLikelyResidualCodUpsellDiscount =
-    isCOD &&
-    !hasAnyDiscount &&
-    orderTotal + 0.01 < expectedCodTotal;
-  const displayTotal = isLikelyResidualCodUpsellDiscount ? expectedCodTotal : orderTotal;
+  const {
+    itemsSubtotal,
+    discountTotal,
+    shippingTotal,
+    displayTotal,
+    isCOD,
+  } = getNormalizedOrderTotals(order);
   if (isCancelled && !isCOD) {
     return (
       <div className="order-success-container">
@@ -395,10 +568,10 @@ export default function OrderSuccess() {
               <span className="summary-value">{discountTotal > 0 ? `-AED ${discountTotal.toFixed(2)}` : 'AED 0.00'}</span>
             </div>
             
-            {order.shipping_total && parseFloat(order.shipping_total) > 0 && (
+            {shippingTotal > 0 && (
               <div className="summary-row">
                 <span className="summary-label">Shipping & handling</span>
-                <span className="summary-value">{formatPrice(order.shipping_total)}</span>
+                <span className="summary-value">{formatPrice(shippingTotal)}</span>
               </div>
             )}
             

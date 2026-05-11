@@ -8,9 +8,9 @@ import OrderConfirmedPopup from './checkout/OrderConfirmedPopup';
 import PaymentMethodSelector from './checkout/PaymentMethodSelector';
 import Tabby from '../assets/images/Footer icons/3.webp'
 import Tamara from '../assets/images/Footer icons/6.webp'
-import { cartHasDynamicProducts, getCartItemDisplayName } from '../utils/staticProductCart';
+import { cartHasDynamicProducts } from '../utils/staticProductCart';
 
-const DELIVERY_FEE = 13;
+const DELIVERY_FEE = 15;
 const WC_API_BASE = 'https://db.store1920.com/wp-json/wc/v3';
 const WC_CK = 'ck_e09e8cedfae42e5d0a37728ad6c3a6ce636695dd';
 const WC_CS = 'cs_2d41bc796c7d410174729ffbc2c230f27d6a1eda';
@@ -137,36 +137,6 @@ export default function CheckoutRight({ cartItems, formData, createOrder, clearC
   const isAddressComplete = requiredFields.every((f) => shippingOrBilling[f]?.trim());
   const canPlaceOrder = isAddressComplete && hasCartItems;
 
-  // Capture order items
-  const captureOrderItems = async (orderId, cartItems, customer) => {
-    const items = cartItems.map((item) => {
-      const displayName = getCartItemDisplayName(item);
-
-      return {
-        id: item.wooId || item.id || 0,
-        name: displayName,
-        display_name: displayName,
-        bundle_type: item.bundleType || '',
-        price: parseFloat(item.prices?.price ?? item.price ?? 0),
-        quantity: parseInt(item.quantity, 10) || 1,
-      };
-    });
-
-    await fetch('https://db.store1920.com/wp-json/custom/v1/capture-order-items', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        order_id: orderId,
-        customer: {
-          first_name: customer.first_name,
-          email: customer.email,
-          phone_number: customer.phone_number,
-        },
-        items,
-      }),
-    });
-  };
-
   // -----------------------------
   // Place Order
   // -----------------------------
@@ -194,10 +164,7 @@ if (!id) {
     throw new Error("Missing order");
   }
 }
-
 const orderIdValue = id;
-
-await captureOrderItems(orderIdValue, cartItems, shippingOrBilling);
 
       // COD - Show order confirmed popup instead of redirecting
       if (formData.paymentMethod === 'cod') {
