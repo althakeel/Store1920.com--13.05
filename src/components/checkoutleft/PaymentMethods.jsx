@@ -107,6 +107,7 @@ const PaymentMethods = ({
   onMethodSelect,
   subtotal,
   cartItems = [],
+  onDiscountChange = null,
 }) => {
   const [showCodPopup, setShowCodPopup] = useState(false);
   const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
@@ -149,10 +150,29 @@ console.log('Auth user ID:', user?.id);
     methodLogo = null,
     extra = {}
   ) => {
+    // Manual card selection should always use normal pricing (no COD upsell 5% off).
+    if (methodId === 'card') {
+      sessionStorage.removeItem('paymentRedirectInitiated');
+      sessionStorage.removeItem('paymentStartTime');
+      if (onDiscountChange) {
+        onDiscountChange(0);
+      }
+    }
+
     onMethodSelect(methodId, methodTitle, methodLogo, extra);
   };
 
   const handleConfirmationClose = () => {
+    // Clear flags and discount when user manually closes (clicks "NO THANKS")
+    sessionStorage.removeItem('paymentRedirectInitiated');
+    sessionStorage.removeItem('paymentStartTime');
+    
+    // Clear the 5% discount when canceling payment
+    if (onDiscountChange) {
+      onDiscountChange(0);
+      console.log('🗑️ Cleared 5% discount (user clicked NO THANKS)');
+    }
+    
     setShowPaymentConfirmation(false);
     setConfirmationMethod(null);
   };
@@ -164,6 +184,17 @@ console.log('Auth user ID:', user?.id);
 
   const handleCodUpsellPayNow = () => {
     setShowCodUpsell(false);
+    // Mark that we're initiating payment to track returns
+    sessionStorage.setItem('paymentRedirectInitiated', 'true');
+    sessionStorage.setItem('paymentStartTime', Date.now().toString());
+    
+    // ✅ APPLY 5% DISCOUNT for card payment
+    const discount5Percent = subtotal * 0.05;
+    if (onDiscountChange) {
+      onDiscountChange(discount5Percent);
+      console.log('💰 Applied 5% discount:', discount5Percent);
+    }
+    
     // Switch to card payment
     setConfirmationMethod({
       id: 'card',
@@ -182,6 +213,13 @@ console.log('Auth user ID:', user?.id);
     onMethodSelect('cod', 'Cash on Delivery', CashIcon);
   };
 
+  const closePopupWithoutClearingFlags = () => {
+    // Close popup but keep flags for return detection
+    // Used when confirming payment (user will be redirected to Stripe)
+    setShowPaymentConfirmation(false);
+    setConfirmationMethod(null);
+  };
+
   const handleConfirmationConfirm = () => {
     if (confirmationMethod) {
       onMethodSelect(
@@ -190,7 +228,8 @@ console.log('Auth user ID:', user?.id);
         confirmationMethod.logo,
         confirmationMethod.extra || {}
       );
-      handleConfirmationClose();
+      // Don't clear flags - keep them for return detection from Stripe
+      closePopupWithoutClearingFlags();
     }
   };
 
@@ -199,11 +238,6 @@ console.log('Auth user ID:', user?.id);
       selectedSavedCardId: card.id,
       selectedSavedCardHint: buildSavedCardHint(card),
     };
-
-    if (selectedMethod === 'card') {
-      onMethodSelect('card', 'Credit/Debit Card', CardIcon, extra);
-      return;
-    }
 
     handlePaymentMethodSelect('card', 'Credit/Debit Card', CardIcon, extra);
   };
@@ -266,6 +300,61 @@ console.log('Auth user ID:', user?.id);
     hasNonStaticProducts,
     isCodAvailableForCart
   });
+
+  // ✅ DETECT RETURN FROM PAYMENT PROVIDER AND RESET STATES
+  // When user comes back from Stripe/payment page, reset payment popups and method
+  // This ensures the original COD price is shown (without any 5% discount)
+  useEffect(() => {
+    const checkReturnFromPayment = () => {
+      const wasPaymentRedirectInitiated = sessionStorage.getItem('paymentRedirectInitiated');
+      const paymentStartTime = sessionStorage.getItem('paymentStartTime');
+      const now = Date.now();
+      
+      // If payment redirect was initiated and we still have the timestamp, check if user returned
+      if (wasPaymentRedirectInitiated && paymentStartTime) {
+        const timeSincePayment = now - parseInt(paymentStartTime, 10);
+        
+        // If payment was initiated but user is still on card method after 200ms,
+        // it likely means they returned from payment provider (without successful redirect)
+        if (timeSincePayment > 200) {
+          console.log('🔄 Detected return from payment provider - timeSincePayment:', timeSincePayment);
+          console.log('💰 Resetting to original COD price (no 5% discount)');
+          
+          // Clear the flags
+          sessionStorage.removeItem('paymentRedirectInitiated');
+          sessionStorage.removeItem('paymentStartTime');
+          
+          // ✅ CLEAR 5% DISCOUNT when returning from payment provider
+          if (onDiscountChange) {
+            onDiscountChange(0);
+            console.log('🗑️ Cleared 5% discount');
+          }
+          
+          // Close all payment-related popups
+          if (showPaymentConfirmation) {
+            console.log('❌ Closing payment confirmation popup');
+            setShowPaymentConfirmation(false);
+            setConfirmationMethod(null);
+          }
+          
+          // Also close COD upsell popup if open
+          if (showCodUpsell) {
+            console.log('❌ Closing COD upsell popup');
+            setShowCodUpsell(false);
+          }
+          
+          // Reset payment method back to COD to restore original price (without 5% off)
+          if (selectedMethod === 'card' && isCodAvailableForCart) {
+            console.log('↩️ Resetting payment method back to COD');
+            onMethodSelect('cod', 'Cash on Delivery', CashIcon);
+          }
+        }
+      }
+    };
+    
+    // Check on mount and when payment-related states change
+    checkReturnFromPayment();
+  }, [selectedMethod, showPaymentConfirmation, showCodUpsell, onMethodSelect, isCodAvailableForCart, onDiscountChange]);
 
   const amount = Number(subtotal) || 0;
   const tamaraMinAmount = 99;

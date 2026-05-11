@@ -34,6 +34,8 @@ export default function CheckoutLeft({
   createOrder,
   showForm: showFormProp,
   setShowForm: setShowFormProp,
+  discount = 0,
+  setDiscount = null,
 }) {
   const [showFormState, setShowFormState] = useState(false);
   const isControlled = typeof showFormProp === 'boolean';
@@ -394,6 +396,7 @@ export default function CheckoutLeft({
         subtotal={subtotal}
         cartItems={cartItems || []}
         orderId={orderId}
+        onDiscountChange={setDiscount}
       />
 
       {/* Sidebar Help */}

@@ -11,6 +11,29 @@ import Tamara from '../assets/images/Footer icons/6.webp'
 import { cartHasDynamicProducts, getCartItemDisplayName } from '../utils/staticProductCart';
 
 const DELIVERY_FEE = 13;
+const WC_API_BASE = 'https://db.store1920.com/wp-json/wc/v3';
+const WC_CK = 'ck_e09e8cedfae42e5d0a37728ad6c3a6ce636695dd';
+const WC_CS = 'cs_2d41bc796c7d410174729ffbc2c230f27d6a1eda';
+
+const wcFetchWithAuth = async (endpoint, options = {}) => {
+  const url = `${WC_API_BASE}/${endpoint}`;
+  const authHeader = 'Basic ' + btoa(`${WC_CK}:${WC_CS}`);
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      Authorization: authHeader,
+      'Content-Type': 'application/json',
+      ...(options.headers || {}),
+    },
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.message || `Woo API ${res.status}`);
+  }
+
+  return res.json();
+};
 
 // -----------------------------
 // Alert Component
@@ -82,6 +105,7 @@ export default function CheckoutRight({ cartItems, formData, createOrder, clearC
   const [confirmedOrderId, setConfirmedOrderId] = useState(null);
   const [confirmedOrderTotal, setConfirmedOrderTotal] = useState(0);
   const [showPaymentSelector, setShowPaymentSelector] = useState(false);
+  const [isRestoringCodAmount, setIsRestoringCodAmount] = useState(false);
 
   const showAlert = (message, type = 'info') => setAlert({ message, type });
 
@@ -411,12 +435,101 @@ console.log("✅ Wallet Payment Response =>", data);
   // Handle "Pay Now" from order confirmed popup - go directly to card payment
   const handlePayNowFromConfirmation = () => {
     setShowOrderConfirmed(false);
+    sessionStorage.setItem(
+      'codPayNowAttempt',
+      JSON.stringify({
+        orderId: confirmedOrderId,
+        originalTotal: Number(confirmedOrderTotal) || 0,
+        startedAt: Date.now(),
+      })
+    );
     handleSelectPaymentMethod('card', confirmedOrderTotal * 0.95, confirmedOrderId);
   };
 
+  const restoreCodOrderPricing = async () => {
+    const rawAttempt = sessionStorage.getItem('codPayNowAttempt');
+    if (!rawAttempt) return;
+
+    let attempt;
+    try {
+      attempt = JSON.parse(rawAttempt);
+    } catch {
+      sessionStorage.removeItem('codPayNowAttempt');
+      return;
+    }
+
+    if (!attempt?.orderId) {
+      sessionStorage.removeItem('codPayNowAttempt');
+      return;
+    }
+
+    const currentOrderId = String(confirmedOrderId || '');
+    if (currentOrderId && String(attempt.orderId) !== currentOrderId) {
+      return;
+    }
+
+    const originalTotal = Number(attempt.originalTotal) || 0;
+
+    try {
+      setIsRestoringCodAmount(true);
+
+      const order = await wcFetchWithAuth(`orders/${attempt.orderId}`);
+      const isCodOrder =
+        String(order?.payment_method || '').toLowerCase() === 'cod' ||
+        String(order?.payment_method_title || '').toLowerCase().includes('cash on delivery');
+
+      if (!isCodOrder) {
+        sessionStorage.removeItem('codPayNowAttempt');
+        return;
+      }
+
+      const currentTotal = Number(order?.total || 0);
+      const alreadyRestored = Math.abs(currentTotal - originalTotal) < 0.01;
+
+      if (alreadyRestored) {
+        sessionStorage.removeItem('codPayNowAttempt');
+        return;
+      }
+
+      const safeFeeLines = Array.isArray(order?.fee_lines) ? order.fee_lines : [];
+      const positiveFeeLines = safeFeeLines
+        .filter((fee) => Number(fee?.total || 0) >= 0)
+        .map((fee) => ({
+          ...(fee?.id ? { id: fee.id } : {}),
+          name: fee?.name || 'Fee',
+          total: Number(fee?.total || 0).toFixed(2),
+        }));
+
+      await wcFetchWithAuth(`orders/${attempt.orderId}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          payment_method: 'cod',
+          payment_method_title: 'Cash on Delivery',
+          fee_lines: positiveFeeLines,
+          coupon_lines: [],
+          set_paid: false,
+          meta_data: [
+            {
+              key: '_store1920_cod_total_restored',
+              value: new Date().toISOString(),
+            },
+          ],
+        }),
+      });
+
+      sessionStorage.removeItem('codPayNowAttempt');
+      console.log('✅ Restored COD order pricing after pay-now back/cancel:', attempt.orderId);
+    } catch (error) {
+      console.error('❌ Failed to restore COD order pricing:', error);
+    } finally {
+      setIsRestoringCodAmount(false);
+    }
+  };
+
   // Handle close order confirmed popup
-  const handleCloseOrderConfirmed = () => {
+  const handleCloseOrderConfirmed = async () => {
     setShowOrderConfirmed(false);
+    await restoreCodOrderPricing();
     console.log('✅ COD Order Confirmed - Redirecting to success page');
     // For COD orders, go directly to success page
     window.location.href = `/order-success?order_id=${confirmedOrderId}`;
@@ -558,7 +671,7 @@ console.log("✅ Wallet Payment Response =>", data);
         onPayNow={handlePayNowFromConfirmation}
         orderId={confirmedOrderId}
         total={confirmedOrderTotal}
-        isLoading={false}
+        isLoading={isRestoringCodAmount}
         paymentMethod={formData.paymentMethod}
       />
 

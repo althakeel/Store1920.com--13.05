@@ -421,12 +421,21 @@ useEffect(() => {
   }, []);
 
   const handlePaymentSelect = (id, title, logo) => {
+    if (id === 'cod' && discount > 0) {
+      setDiscount(0);
+    }
+
     setFormData(prev => ({ 
       ...prev, 
       paymentMethod: id, 
       paymentMethodTitle: title,
       paymentMethodLogo: logo 
     }));
+  };
+
+  const clearCheckoutAndGlobalCart = () => {
+    clearCart();
+    setCartItems([]);
   };
 
   const createOrder = async () => {
@@ -504,12 +513,15 @@ useEffect(() => {
     };
 
 
+    const isCodPayment = String(formData.paymentMethod || '').toLowerCase() === 'cod';
+    const effectiveDiscount = isCodPayment ? 0 : discount;
+
     // Add discount and coinDiscount as negative fee lines if present
     const fee_lines = [];
-    if (discount > 0) {
+    if (effectiveDiscount > 0) {
       fee_lines.push({
         name: 'Coupon Discount',
-        total: (-discount).toFixed(2),
+        total: (-effectiveDiscount).toFixed(2),
       });
     }
     if (coinDiscount > 0) {
@@ -648,7 +660,7 @@ useEffect(() => {
       formData={formData}
       orderId={orderId}
       createOrder={createOrder}
-      clearCart={() => setCartItems([])}
+      clearCart={clearCheckoutAndGlobalCart}
       handlePlaceOrder={handlePlaceOrder}
       subtotal={subtotal}
       showForm={showForm}
@@ -771,13 +783,15 @@ return (
         setFormData={setFormData}
         handlePlaceOrder={handlePlaceOrder}
         createOrder={createOrder}
+        discount={discount}
+        setDiscount={setDiscount}
       />
       <CheckoutRight
         cartItems={cartItems}
         formData={formData}
         orderId={orderId}
         createOrder={createOrder}
-        clearCart={() => setCartItems([])}
+        clearCart={clearCheckoutAndGlobalCart}
         handlePlaceOrder={handlePlaceOrder}
         subtotal={subtotal}
         discount={discount}
