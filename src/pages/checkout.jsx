@@ -569,7 +569,7 @@ useEffect(() => {
       },
       line_items,
       shipping_lines:
-        discountedDynamicSubtotal >= FREE_SHIPPING_THRESHOLD
+        !hasDynamicProducts || discountedDynamicSubtotal >= FREE_SHIPPING_THRESHOLD
           ? []
           : formData.shippingMethodId
             ? [{ method_id: formData.shippingMethodId }]
