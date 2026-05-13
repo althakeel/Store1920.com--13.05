@@ -47,9 +47,6 @@ const getFeeDiscountTotal = (feeLines = []) =>
     return feeTotal < 0 ? sum + Math.abs(feeTotal) : sum;
   }, 0);
 
-const SHIPPING_FREE_THRESHOLD = 100;
-const SHIPPING_UNDER_THRESHOLD_FEE = 15;
-
 const getNormalizedOrderTotals = (orderData) => {
   const itemsSubtotal = (orderData?.line_items || []).reduce((sum, item) => {
     const isGift =
@@ -64,7 +61,17 @@ const getNormalizedOrderTotals = (orderData) => {
     return sum + getSafeAmount(item?.total);
   }, 0);
 
-  const shippingTotal = itemsSubtotal >= SHIPPING_FREE_THRESHOLD ? 0 : SHIPPING_UNDER_THRESHOLD_FEE;
+  const hasShippingTotalField =
+    orderData?.shipping_total !== undefined &&
+    orderData?.shipping_total !== null &&
+    String(orderData?.shipping_total).trim() !== '';
+  const shippingFromLines = (orderData?.shipping_lines || []).reduce(
+    (sum, line) => sum + getSafeAmount(line?.total),
+    0
+  );
+  const shippingTotal = hasShippingTotalField
+    ? getSafeAmount(orderData?.shipping_total)
+    : shippingFromLines;
   const couponDiscountTotal = getSafeAmount(orderData?.discount_total);
   const feeDiscountTotal = getFeeDiscountTotal(orderData?.fee_lines);
   const discountTotal = couponDiscountTotal + feeDiscountTotal;
