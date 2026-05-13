@@ -300,22 +300,38 @@
 @media (max-width: 768px) {
   .gcx-container {
     grid-template-columns: 1fr;
-    padding: 0 15px;
+    padding: 0 10px;
     height: auto;   
     margin: 20px auto 20px;         /* full flow on mobile */
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
   }
   .gcx-left { display: none; }
  
+  .gcx-middle {
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+    padding: 12px 8px;
+  }
 
   .gcx-middle-grid {
-    grid-template-columns: repeat(2, 1fr); /* ✅ 2 columns on mobile */
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* ✅ 2 columns on mobile */
     gap: 10px;
+    width: 100%;
+    min-width: 0;
   }
   .gcx-product-card img {
     height: auto; /* smaller images to fit mobile */
   }
   .gcx-product-card {
     padding: 8px;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .gcx-product-title {
+    min-width: 0;
   }
   .gcx-cart-btn {
     font-size: 12px;

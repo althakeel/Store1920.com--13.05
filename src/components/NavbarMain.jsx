@@ -7,7 +7,6 @@ import SearchBar from './sub/SearchBar';
 import SignInModal from './sub/SignInModal';
 import MobileMenu from './sub/MobileMenu';
 import UserDropdownMenu from './UserDropdownMenu';
-import SupportDropdownMenu from './sub/SupportDropdownMenu';
 import CoinWidget from './CoinWidget';
 import { useCart } from '../contexts/CartContext';
 import { useTheme } from '../contexts/ThemeContext'; 
@@ -23,9 +22,7 @@ import truck from '../assets/images/common/truck.png'
 import '../assets/styles/Navbar.css';
 
 // Icons
-import Newicon from '../assets/images/webicons/Header/White/Asset 34@6x.png';
 import Star from '../assets/images/webicons/Common/Asset 117@6x.png';
-import SupportIcon from '../assets/images/webicons/Header/White/Asset 32@6x.png';
 import CartIcon from '../assets/images/webicons/Header/White/Asset 30@6x.png';
 import UserIcon from '../assets/images/webicons/Header/White/Asset 21@6x.png';
 import TopSellicon from '../assets/images/webicons/Header/White/Asset 24@6x.png';
@@ -41,7 +38,6 @@ const NavbarWithMegaMenu = ({ cartIconRef, openCart }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const [supportDropdownOpen, setSupportDropdownOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const [language, setLanguage] = useState('en');
@@ -56,7 +52,6 @@ const [currentMessage, setCurrentMessage] = useState('🚀 Fast Delivery');
 
 
   const timeoutRef = useRef(null);
-  const supportTimeoutRef = useRef(null);
   const userTimeoutRef = useRef(null);
   const langTimeoutRef = useRef(null);
   const navRef = useRef(null);
@@ -371,13 +366,35 @@ const messages = [
 
           <div className={`navbar-menu ${mobileMenuOpen ? 'open' : ''}`}>
             <div className="nav-left-links">
+              <div
+                className="nav-icon-with-text gvd-nav-link"
+                onClick={() => navigate('/combo-deals')}
+                style={{ position: 'relative' }}
+              >
+                <span className="gvd-nav-text">Combo Deals</span>
+                <style>{`
+                  .gvd-nav-link {
+                    position: relative;
+                    overflow: visible !important;
+                  }
+                  .gvd-nav-text {
+                    background: linear-gradient(90deg, #fff 0%, #ffd700 40%, #ff6b00 70%, #fff 100%);
+                    background-size: 200% auto;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    animation: gvdShimmer 2.2s linear infinite;
+                    font-weight: 700;
+                  }
+                  @keyframes gvdShimmer {
+                    0% { background-position: 200% center; }
+                    100% { background-position: -200% center; }
+                  }
+                `}</style>
+              </div>
               <div className="nav-icon-with-text star-rating" onClick={() => navigate('/top-selling-item')}>
                 <img src={TopSellicon} alt="Top Selling" className="icon-star" />
                 <span>Top Selling Items</span>
-              </div>
-              <div className="nav-icon-with-text" onClick={() => navigate('/new')}>
-                <img src={Newicon} alt="New" className="icon-small" />
-                <span>New</span>
               </div>
    
    
@@ -651,23 +668,6 @@ const messages = [
                   </div>
                 </div>
               )}
-
-              {/* Support dropdown */}
-              <div
-                className="nav-icon-with-text support-link"
-                onMouseEnter={() => {
-                  if (supportTimeoutRef.current) clearTimeout(supportTimeoutRef.current);
-                  setSupportDropdownOpen(true);
-                }}
-                onMouseLeave={() => {
-                  supportTimeoutRef.current = setTimeout(() => setSupportDropdownOpen(false), 200);
-                }}
-                style={{ position: 'relative', cursor: 'pointer', color: textColor }}
-              >
-                <img src={SupportIcon} alt="Support Icon" className="icon-small" />
-                <span>Support</span>
-                <SupportDropdownMenu isOpen={supportDropdownOpen} onClose={() => setSupportDropdownOpen(false)} />
-              </div>
 
               {/* Language & currency */}
               <div

@@ -695,9 +695,60 @@ export const getProductById = async (id) => {
   const product = await fetchAPI(`/products/${id}?_fields=id,name,slug,images,price,regular_price,sale_price,stock_status,stock_quantity,manage_stock,is_in_stock,average_rating,review_count,short_description,description,attributes,upsell_ids,cross_sell_ids,variations,sku,total_sales,subtitle,cod_available`);
   return enrichWithShortDescription(product);
 };
-export const searchProducts = (term) => fetchAPI(
-    `/products?search=${encodeURIComponent(term)}&status=publish&catalog_visibility=visible`
-  );
+export const searchProducts = async (term, limit = 50) => {
+  const rawTerm = String(term || '').trim();
+  if (!rawTerm) return [];
+
+  const normalize = (value) =>
+    String(value || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+
+  const wanted = normalize(rawTerm);
+  const perPage = Math.max(10, Math.min(Number(limit) || 50, 100));
+  const fields = '_fields=id,name,slug,sku,images,price,regular_price,sale_price,status,catalog_visibility';
+
+  const [bySearch, bySlugExact, bySkuExact] = await Promise.all([
+    fetchAPI(`/products?search=${encodeURIComponent(rawTerm)}&status=publish&catalog_visibility=visible&per_page=${perPage}&${fields}`),
+    fetchAPI(`/products?slug=${encodeURIComponent(rawTerm)}&status=publish&catalog_visibility=visible&per_page=10&${fields}`),
+    fetchAPI(`/products?sku=${encodeURIComponent(rawTerm)}&status=publish&catalog_visibility=visible&per_page=10&${fields}`),
+  ]);
+
+  const merged = [];
+  const seen = new Set();
+  const pushUnique = (items) => {
+    (Array.isArray(items) ? items : []).forEach((item) => {
+      const id = Number(item?.id);
+      if (!id || seen.has(id)) return;
+      seen.add(id);
+      merged.push(item);
+    });
+  };
+
+  pushUnique(bySearch);
+  pushUnique(bySlugExact);
+  pushUnique(bySkuExact);
+
+  // Fallback: broad fetch + local match for products Woo search can miss.
+  if (merged.length < Math.min(12, perPage)) {
+    const [page1, page2] = await Promise.all([
+      fetchAPI(`/products?status=publish&catalog_visibility=visible&orderby=date&order=desc&per_page=100&page=1&${fields}`),
+      fetchAPI(`/products?status=publish&catalog_visibility=visible&orderby=date&order=desc&per_page=100&page=2&${fields}`),
+    ]);
+
+    const fallbackPool = [...(Array.isArray(page1) ? page1 : []), ...(Array.isArray(page2) ? page2 : [])];
+    const localMatches = fallbackPool.filter((p) => {
+      const hay = `${normalize(p?.name)} ${normalize(p?.slug)} ${normalize(p?.sku)}`;
+      return wanted && hay.includes(wanted);
+    });
+    pushUnique(localMatches);
+  }
+
+  return merged.slice(0, perPage);
+};
 export const getProductsByIds = (ids = []) => {
   if (!Array.isArray(ids) || !ids.length) return [];
   return fetchAPI(`/products?include=${ids.join(",")}`);

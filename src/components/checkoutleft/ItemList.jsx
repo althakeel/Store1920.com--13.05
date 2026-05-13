@@ -22,6 +22,15 @@ const slugify = (text) =>
     .replace(/[^\w\-]+/g, '')
     .replace(/\-\-+/g, '-') || '';
 
+const isCodEnabledValue = (value) => {
+  if (value === true || value === 1) return true;
+  if (typeof value === 'string') {
+    const normalized = value.trim().toLowerCase();
+    return ['1', 'true', 'yes', 'on'].includes(normalized);
+  }
+  return false;
+};
+
 const ItemList = ({ items = [], onRemove, onUpdateQuantity }) => {
   const navigate = useNavigate();
   const { removeFromCart, updateQuantity } = useCart();
@@ -136,8 +145,8 @@ const ItemList = ({ items = [], onRemove, onUpdateQuantity }) => {
             (!price || parseFloat(price) <= 0) &&
             (hasStockInfo && (stockOutByQuantity || stockOutByFlag));
 
-          // Check if this item supports COD (either from static list OR WordPress backend setting)
-          const isCodAvailable = staticProductIds.includes(item.id) || item.cod_available === true;
+          // Business rule override: enable COD for all products.
+          const isCodAvailable = true;
           const currentQuantity = Number(item.quantity) > 0 ? Number(item.quantity) : 1;
           const maxItemQuantity =
             Number.isInteger(item.stock_quantity) && item.stock_quantity > 0

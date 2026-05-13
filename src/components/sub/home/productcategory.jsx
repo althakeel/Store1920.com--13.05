@@ -306,9 +306,9 @@ const staticProducts = [
   {
     id: "7",
     name: "Cordless 2-in-1 Leaf Blower and Vacuum",
-    price: "59.90",
+    price: "69.90",
     regular_price: "189.00",
-    sale_price: "59.90",
+    sale_price: "69.90",
     images: [{ src: Product7 }],
     slug: "cordless-2-in-1-leaf-blower-vacuum",
     path: "/products/cordless-2-in-1-leaf-blower-vacuum",
@@ -320,9 +320,9 @@ const staticProducts = [
   {
     id: "8",
     name: "Turbo Cordless Leaf Blower – 21V Power for Every Task",
-    price: "59.90",
+    price: "69.90",
     regular_price: "99.98",
-    sale_price: "59.90",
+    sale_price: "69.90",
     images: [{ src: Product8 }],
     slug: "turbo-cordless-leaf-blower-21v-power-for-every-task",
     path: "/products/turbo-cordless-leaf-blower-21v-power-for-every-task",

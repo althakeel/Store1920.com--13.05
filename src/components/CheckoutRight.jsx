@@ -8,7 +8,7 @@ import OrderConfirmedPopup from './checkout/OrderConfirmedPopup';
 import PaymentMethodSelector from './checkout/PaymentMethodSelector';
 import Tabby from '../assets/images/Footer icons/3.webp'
 import Tamara from '../assets/images/Footer icons/6.webp'
-import { cartHasDynamicProducts } from '../utils/staticProductCart';
+import { cartHasDynamicProducts, isStaticCartItem } from '../utils/staticProductCart';
 
 const DELIVERY_FEE = 15;
 const WC_API_BASE = 'https://db.store1920.com/wp-json/wc/v3';
@@ -119,7 +119,16 @@ export default function CheckoutRight({ cartItems, formData, createOrder, clearC
   const totalDiscount = Math.min(discount + coinDiscount, itemsTotal);
   const subtotal = Math.max(0, itemsTotal - totalDiscount);
   const hasDynamicProducts = cartHasDynamicProducts(cartItems);
-  const deliveryFee = subtotal > 0 && subtotal < 100 && hasDynamicProducts ? DELIVERY_FEE : 0;
+  // Shipping threshold is based only on dynamic (non-static) items; static products are always free delivery
+  const dynamicItemsTotal = cartItems
+    .filter(item => !isStaticCartItem(item) && !item.isGift)
+    .reduce((acc, item) => {
+      const price = parsePrice(item.prices?.price ?? item.price);
+      const quantity = parseInt(item.quantity, 10) || 1;
+      return acc + price * quantity;
+    }, 0);
+  const dynamicSubtotal = Math.max(0, dynamicItemsTotal - totalDiscount);
+  const deliveryFee = dynamicSubtotal > 0 && dynamicSubtotal < 100 && hasDynamicProducts ? DELIVERY_FEE : 0;
   const totalWithDelivery = Math.max(0, subtotal + deliveryFee); // Ensure total never goes below zero
   const amountToSend = Number(totalWithDelivery.toFixed(2));
   const hasCartItems = cartItems.some((item) => (parseInt(item.quantity, 10) || 0) > 0);
@@ -399,7 +408,9 @@ console.log("✅ Wallet Payment Response =>", data);
     };
   };
 
-  // Handle "Pay Now" from order confirmed popup - go directly to card payment
+  // Handle "Pay Now" from order confirmed popup - open PaymentMethodSelector modal with 5% off.
+  // We do NOT call Stripe directly here; the user must confirm in the selector first.
+  // This prevents the WooCommerce order total from being modified before payment is confirmed.
   const handlePayNowFromConfirmation = () => {
     setShowOrderConfirmed(false);
     sessionStorage.setItem(
@@ -410,7 +421,8 @@ console.log("✅ Wallet Payment Response =>", data);
         startedAt: Date.now(),
       })
     );
-    handleSelectPaymentMethod('card', confirmedOrderTotal * 0.95, confirmedOrderId);
+    // Show the payment selector with 5% off; Stripe is only called when user clicks Continue
+    setShowPaymentSelector(true);
   };
 
   const restoreCodOrderPricing = async () => {

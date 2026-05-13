@@ -1562,7 +1562,7 @@ const staticProducts = [
     id: 523418,
     name: "Cordless Leaf Blower",
     slug: "cordless-2-in-1-leaf-blower-vacuum",
-    price: 59.90,
+    price: 69.90,
     description:
       "17000 RPM |Single Battery Powered | Wireless | Lightweight & Portable",
     shortdesc: "Blow, Vacuum, and Clean — All with One Tool",
@@ -1592,7 +1592,7 @@ const staticProducts = [
         name: "Cordless Leaf Blower ",
         label: "Single Battery for Only 69.9 AED",
         discount: 0,
-        price: 59.9,
+        price: 69.9,
         originalPrice: 189,
         image: Product96,
       },
@@ -1602,7 +1602,7 @@ const staticProducts = [
         name: "Cordless Leaf Blower ",
         label: "Double Battery & Get 15% Off",
         discount: 15,
-        price: 69.90, // 15% off on 2 items
+        price: 79.90, // 15% off on 2 items
         originalPrice: 139, // 139.80 AED
         note: "Perfect for you & a friend",
         mostPopular: true,
@@ -1707,7 +1707,7 @@ const staticProducts = [
     id: 523759,
     name: "Turbo Cordless Leaf Blower – 21V Power for Every Task",
     slug: "turbo-cordless-leaf-blower-21v-power-for-every-task",
-    price: 59.90,
+    price: 69.90,
     description:
       "Lightweight | Powerful Turbine Motor | Dual Battery Option ",
     shortdesc:
@@ -1739,7 +1739,7 @@ const staticProducts = [
         name: "Turbo Cordless Leaf Blower – 21V Power for Every Task - Single Battery",
         label: "Ideal for quick cleanups & small areas.",
         discount: 47,
-        price: 59.90,
+        price: 69.90,
         originalPrice: 99.98,
         image: Products118,
       },
@@ -1750,7 +1750,7 @@ const staticProducts = [
         label:
           "Extended runtime for large spaces & heavy use. Each battery is 21V large-capacity lithium, offering efficient, long-lasting power.",
         discount: 48,
-        price: 69.90,
+        price: 79.90,
         originalPrice: 129.0,
         note: "",
         mostPopular: true,

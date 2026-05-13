@@ -35,6 +35,15 @@ const TAMARA_PUBLIC_KEY = '610bc886-8883-42f4-9f61-4cf0ec45c02e';
 
 const formatAED = (value) => `AED${Number(value || 0).toFixed(2)}`;
 
+const isCodEnabledValue = (value) => {
+  if (value === true || value === 1) return true;
+  if (typeof value === 'string') {
+    const normalized = value.trim().toLowerCase();
+    return ['1', 'true', 'yes', 'on'].includes(normalized);
+  }
+  return false;
+};
+
 const getInstallmentAmounts = (amount) => {
   const normalizedAmount = Number(amount) || 0;
   const baseInstallment = Math.floor((normalizedAmount / 4) * 100) / 100;
@@ -245,17 +254,9 @@ console.log('Auth user ID:', user?.id);
     staticProductIds.length > 0 &&
     codRelevantItems.some(item => !staticProductIds.includes(getItemLookupId(item)));
 
-  // Check if all non-gift cart items have COD enabled (from WordPress backend setting)
-  const allItemsSupportCOD =
-    codRelevantItems.length > 0 &&
-    codRelevantItems.every(item => item.cod_available === true);
-
-  // COD is available if EITHER:
-  // 1. All items are in static products list (existing logic), OR
-  // 2. All items have cod_available = true (new WordPress setting)
-  const isCodAvailableForCart = 
-    (hasOnlyStaticProducts && !hasNonStaticProducts && staticProductIds.length > 0) || 
-    allItemsSupportCOD;
+  // Business rule override: enable COD for all products when cart has payable items.
+  const allItemsSupportCOD = codRelevantItems.length > 0;
+  const isCodAvailableForCart = codRelevantItems.length > 0;
 
   // Set default payment method: COD if available, otherwise Card
   useEffect(() => {

@@ -60,6 +60,7 @@ import ProductRouteWrapper from './pages/ProductRouteWrapper '
 import CustomCheckout from './pages/adcheckout'
 import Fastdelivery from './pages/Fastdelivery';
 import Product_details from './pages/product_details';
+import GreatValueDeals from './pages/GreatValueDeals';
 
 
 // Components
@@ -269,17 +270,19 @@ const AppContent = () => {
 
   const excludeMiniCartPaths = ['/cart', '/checkout', '/lost-password', '/reset-password', '/order-success', '/order-cancel'];
 
-  const shouldShowMiniCart =
-    !isMobile &&
-    isCartOpen &&
-    !excludeMiniCartPaths.some(
-      (excludedPath) => path === excludedPath || path.startsWith(`${excludedPath}/`)
-    );
-
   const isHomePage = path === '/';
   const isSupportPage = path === '/support';
   const isFestSalePage = path === '/fest-sale';
   const isSeasonSalePage = path === '/season-sale';
+  const isComboDealsPage = path === '/combo-deals';
+
+  const shouldShowMiniCart =
+    !isMobile &&
+    isCartOpen &&
+    !isComboDealsPage &&
+    !excludeMiniCartPaths.some(
+      (excludedPath) => path === excludedPath || path.startsWith(`${excludedPath}/`)
+    );
   const onCheckoutPage = path === '/checkout' || path.startsWith('/checkout/');
   const shouldShowCookiePopup = false;
 
@@ -288,14 +291,14 @@ const AppContent = () => {
   // Close cart if navigating to excluded paths
   useEffect(() => {
     if (
-      excludeMiniCartPaths.some(
+      (excludeMiniCartPaths.some(
         (excludedPath) => path === excludedPath || path.startsWith(`${excludedPath}/`)
-      ) &&
+      ) || isComboDealsPage) &&
       isCartOpen
     ) {
       setIsCartOpen(false);
     }
-  }, [path, excludeMiniCartPaths, isCartOpen, setIsCartOpen]);
+  }, [path, excludeMiniCartPaths, isCartOpen, setIsCartOpen, isComboDealsPage]);
 
   return (
     <ThemeProvider>
@@ -383,6 +386,7 @@ const AppContent = () => {
 
                     <Route path="/allproducts" element={<AllProducts />} />
                     <Route path="/topselling" element={<TopSellingitems />} />
+                    <Route path="/combo-deals" element={<GreatValueDeals />} />
                     <Route path="/new" element={<New />} />
                     <Route path="/rated" element={<Rated />} />
                     <Route path="/support" element={<SupportPage />} />
