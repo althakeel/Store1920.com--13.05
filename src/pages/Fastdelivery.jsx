@@ -123,18 +123,18 @@ const staticProducts = [
     sold: 139
   },
 
-  {
-    id: "Porodo TrackFit Smart Fitness Band – 120+ Sports Modes, 30-Day Battery",
-    name: "Porodo TrackFit Smart Fitness Band – 120+ Sports Modes, 30-Day Battery",
-    price: "99.90",
-    regular_price: "169.00",
-    sale_price: "99.90",
-    images: [{ src: Product29 }],
-    path: "/products/porodo-trackfit-smart-fitness-band-black-orange",
-    rating: 5,
-    reviews: 28,
-    sold: 29
-  },
+  // {
+  //   id: "Porodo TrackFit Smart Fitness Band – 120+ Sports Modes, 30-Day Battery",
+  //   name: "Porodo TrackFit Smart Fitness Band – 120+ Sports Modes, 30-Day Battery",
+  //   price: "99.90",
+  //   regular_price: "169.00",
+  //   sale_price: "99.90",
+  //   images: [{ src: Product29 }],
+  //   path: "/products/porodo-trackfit-smart-fitness-band-black-orange",
+  //   rating: 5,
+  //   reviews: 28,
+  //   sold: 29
+  // },
 
 
 
@@ -325,9 +325,9 @@ const staticProducts = [
   {
     id: "mansory-special-edition-scooter-sm10",
     name: "Mansory Special Edition Scooter SM10",
-    price: "3899.00",
+    price: "3850.00",
     regular_price: "6000.00",
-    sale_price: "3899.00",
+    sale_price: "3850.00",
     images: [{ src: Product23 }],
     path: "/products/mansory-special-edition-scooter-sm10",
     rating: 5,

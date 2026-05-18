@@ -4790,8 +4790,8 @@ reviews: [
   id: 543889,
   name: "Mansory Special Edition Scooter SM10",
   slug: "mansory-special-edition-scooter-sm10",
-  price: 3899.0,
-  salePrice: 3899.0,
+  price: 3850.0,
+  salePrice: 3850.0,
   regularPrice: 6000.0,
 
   description:
@@ -4824,7 +4824,7 @@ reviews: [
       label: "Standard Edition",
       discount: 0,
       slug: "mansory-special-edition-scooter-sm10",
-      price: 3899.0,
+      price: 3850.0,
       originalPrice: 6000.0,
       image: Product269,
     },
