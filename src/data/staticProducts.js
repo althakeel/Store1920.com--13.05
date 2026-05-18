@@ -1258,7 +1258,7 @@ const staticProducts = [
     id: 523106,
     name: "GameBox 64 Retro Console – 20,000+ Preloaded Games with 4K HDMI & Wireless Controllers",
     slug: "gamebox-64-retro-console-20000-preloaded-games-4k-hdmi-wireless-controllers",
-    price: 79.90,
+    price: 99.90,
     description: "Turn Your TV into the Ultimate Retro Gaming Console",
     shortdesc:
       " 20,000+ classic games | 64GB storage | Plug & Play | Stunning 4K visuals ",
@@ -1288,8 +1288,8 @@ const staticProducts = [
         name: "GameBox 64 Retro Console",
         label: "Buy 1 for Only 88 AED",
         discount: 0,
-        price: 79.90,
-        originalPrice: 89.99,
+        price: 99.90,
+        originalPrice: 145.99,
         image: Product73,
       },
       {
@@ -1298,7 +1298,7 @@ const staticProducts = [
         name: "GameBox 64 Retro Console",
         label: "Buy 2 & Get 10% Off",
         discount: 10,
-        price: 143.90, // ≈ 118.83 AED
+        price: 179.90, // ≈ 118.83 AED
         originalPrice: +(69.9 * 2).toFixed(2), // 139.8 AED
         note: "Perfect for you & a friend",
         mostPopular: true,
@@ -1310,7 +1310,7 @@ const staticProducts = [
         name: "GameBox 64 Retro Console",
         label: "Buy 3 & Get 18% Off",
         discount: 0,
-        price: 196.90, // ≈ 157.28 AED
+        price: 245.90, // ≈ 157.28 AED
         originalPrice: +(69.9 * 3).toFixed(2),
         note: "Best Value",
         image: Product82,
