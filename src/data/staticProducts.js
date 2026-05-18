@@ -265,6 +265,11 @@ import Product279 from "../assets/images/staticproducts/airtab-mini/5.webp";
 import Product280 from "../assets/images/staticproducts/airtab-mini/2.webp";
 import Product281 from "../assets/images/staticproducts/airtab-mini/3.webp";
 import Product282 from "../assets/images/staticproducts/airtab-mini/4.webp";
+// new porodo trackfit images for new product page
+import Product283 from "../assets/images/staticproducts/PorodoTrackFit/5.webp";
+import Product284 from "../assets/images/staticproducts/PorodoTrackFit/6.webp";
+
+
 
 
 
@@ -286,11 +291,12 @@ const staticProducts = [
     subdesc3: "30-day battery life",
     subdesc4: "120+ sport modes",
 
-    image: Product274,
-    thumb1: Product275,
-    thumb2: Product276,
-    thumb3: Product277,
-    thumb4: Product274,
+    image: Product283,
+    thumb1: Product284,
+    thumb2: Product274,
+    thumb3: Product275,
+    thumb4: Product276,
+    thumb5: Product277,
 
     bundles: [
       {
