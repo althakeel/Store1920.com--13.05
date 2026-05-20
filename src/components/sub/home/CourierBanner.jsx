@@ -18,17 +18,18 @@ const CourierBanner = () => {
         alignItems: 'center',
         width: '100%'
       }}>
-        <img 
-          style={{
-            height: '50px',
-            width: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center center'
-          }}
-          src='https://db.store1920.com/wp-content/uploads/2026/04/Mini-1-scaled.webp' 
-          
-          alt="Courier Banner" 
-        />
+        <a href="/products/porodo-trackfit-smart-fitness-band-black-orange" style={{width: '100%'}}>
+          <img 
+            style={{
+              height: '50px',
+              width: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center center'
+            }}
+            src='https://db.store1920.com/wp-content/uploads/2026/05/mini-1-scaled.webp' 
+            alt="Courier Banner" 
+          />
+        </a>
       </div>
     </section>
   );

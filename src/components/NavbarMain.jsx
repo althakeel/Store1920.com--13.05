@@ -12,7 +12,7 @@ import { useCart } from '../contexts/CartContext';
 import { useTheme } from '../contexts/ThemeContext'; 
 import { useAuth } from '../contexts/AuthContext';
 import { resolveUserProfileImage } from '../utils/profileImage';
-import LogoMain from '../assets/images/Logo/logo-banner16.png';
+import LogoMain from '../assets/images/Logo/logo-17.png';
 
 import Dirham from '../assets/images/language/aed (1).png';
 import Dollor from '../assets/images/language/dollor.png';
@@ -259,7 +259,7 @@ const messages = [
   };
 
   // const backgroundColor = currentTheme?.navbarBg || '#CCA000';
-  const backgroundColor ='#3F0062';
+  const backgroundColor ='#7B5131';
 
   const colorToRgba = (color, alpha) => {
     if (!color) return `rgba(0, 46, 70, ${alpha})`;

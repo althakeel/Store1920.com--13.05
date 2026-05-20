@@ -173,8 +173,8 @@ const GridCategories = () => {
   // Set banners
   useEffect(() => {
     setBanners([
-      { id: 1, image: "https://db.store1920.com/wp-content/uploads/2026/04/Sub-1.webp" },
-      { id: 2, image: "https://db.store1920.com/wp-content/uploads/2026/04/Sub-2.webp" },
+      { id: 1, image: "https://db.store1920.com/wp-content/uploads/2026/05/Sub-1.webp" },
+      { id: 2, image: "https://db.store1920.com/wp-content/uploads/2026/05/sub-2.webp" },
     ]);
   }, []);
 
@@ -249,7 +249,7 @@ const GridCategories = () => {
         {isMobile ? (
           <div
             className="gcx-banner"
-            onClick={() => navigate('/products/mansory-special-edition-scooter-sm10')}
+            onClick={() => navigate('/products/porodo-trackfit-smart-fitness-band-black-orange')}
             style={{ cursor: "pointer" }}
           >
             <img
@@ -263,7 +263,7 @@ const GridCategories = () => {
             <div
               key={ban.id}
               className="gcx-banner"
-              onClick={() => navigate('/products/mansory-special-edition-scooter-sm10')}
+              onClick={() => navigate('/products/porodo-trackfit-smart-fitness-band-black-orange')}
               style={{ cursor: "pointer" }}
             >
               <img src={ban.image} alt={`Banner ${ban.id}`} />
