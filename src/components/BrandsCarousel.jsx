@@ -1,16 +1,15 @@
-import React, { useRef, useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { throttle } from "lodash";
+import Slider from "react-slick";
 import { getAllBrands } from "../api/woocommerce";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "../assets/styles/BrandsCarousel.css";
 
 const BrandsCarousel = ({ brands: propBrands }) => {
   const navigate = useNavigate();
-  const brandsRef = useRef(null);
   const [brands, setBrands] = useState(propBrands || []);
   const [loading, setLoading] = useState(!propBrands || propBrands.length === 0);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
 
   // Fetch brands from API if not provided
   useEffect(() => {
@@ -42,25 +41,40 @@ const BrandsCarousel = ({ brands: propBrands }) => {
     loadBrands();
   }, [propBrands]);
 
-  const updateArrowVisibility = useCallback(() => {
-    const el = brandsRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 0);
-    setCanScrollRight(el.scrollWidth - el.scrollLeft > el.clientWidth + 10);
-  }, []);
-
-  useEffect(() => {
-    const el = brandsRef.current;
-    if (!el) return;
-    const throttled = throttle(updateArrowVisibility, 100);
-    el.addEventListener("scroll", throttled);
-    updateArrowVisibility();
-    return () => el.removeEventListener("scroll", throttled);
-  }, [updateArrowVisibility]);
-
   const handleBrandClick = (brand) => {
     navigate(`/brand/${brand.slug}`);
     window.scrollTo(0, 0);
+  };
+
+  const sliderSettings = {
+    dots: false,
+    infinite: brands.length > 4,
+    speed: 500,
+    slidesToShow: Math.min(4, Math.max(1, brands.length)),
+    slidesToScroll: 1,
+    autoplay: brands.length > 4,
+    autoplaySpeed: 3000,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: Math.min(3, Math.max(1, brands.length)),
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: Math.min(2, Math.max(1, brands.length)),
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   return (
@@ -68,7 +82,7 @@ const BrandsCarousel = ({ brands: propBrands }) => {
       <h2 className="brands-carousel-title">Featured Brands</h2>
       
       {loading ? (
-        <div className="brands-carousel-container">
+        <div className="brands-carousel-container brands-loading-list">
           {[1, 2, 3, 4, 5].map((i) => (
             <div key={i} className="brand-card brand-skeleton">
               <div className="brand-logo-wrapper" style={{ background: "#eee" }} />
@@ -78,49 +92,30 @@ const BrandsCarousel = ({ brands: propBrands }) => {
         </div>
       ) : brands && brands.length > 0 ? (
         <div className="brands-carousel-container">
-          {canScrollLeft && (
-            <button 
-              className="brands-scroll-btn brands-scroll-left"
-              onClick={() => brandsRef.current?.scrollBy({ left: -200, behavior: "smooth" })}
-              title="Scroll left"
-            >
-              ‹
-            </button>
-          )}
-          
-          <div className="brands-carousel-scroll" ref={brandsRef}>
+          <Slider {...sliderSettings} className="brands-carousel-slider">
             {brands.map((brand) => (
-              <div
-                key={brand.id}
-                className="brand-card"
-                onClick={() => handleBrandClick(brand)}
-                title={brand.name}
-              >
-                <div className="brand-logo-wrapper">
-                  <img
-                    src={brand.logo || "https://via.placeholder.com/150x100?text=" + encodeURIComponent(brand.name)}
-                    alt={brand.name}
-                    className="brand-logo"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.src = "https://via.placeholder.com/150x100?text=" + encodeURIComponent(brand.name);
-                    }}
-                  />
+              <div key={brand.id} className="brand-slide-wrap">
+                <div
+                  className="brand-card"
+                  onClick={() => handleBrandClick(brand)}
+                  title={brand.name}
+                >
+                  <div className="brand-logo-wrapper">
+                    <img
+                      src={brand.logo || "https://via.placeholder.com/150x100?text=" + encodeURIComponent(brand.name)}
+                      alt={brand.name}
+                      className="brand-logo"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/150x100?text=" + encodeURIComponent(brand.name);
+                      }}
+                    />
+                  </div>
+                  <p className="brand-name">{brand.name}</p>
                 </div>
-                <p className="brand-name">{brand.name}</p>
               </div>
             ))}
-          </div>
-
-          {canScrollRight && (
-            <button 
-              className="brands-scroll-btn brands-scroll-right"
-              onClick={() => brandsRef.current?.scrollBy({ left: 200, behavior: "smooth" })}
-              title="Scroll right"
-            >
-              ›
-            </button>
-          )}
+          </Slider>
         </div>
       ) : (
         <div style={{ padding: "20px", textAlign: "center", color: "#999", fontSize: "14px" }}>
