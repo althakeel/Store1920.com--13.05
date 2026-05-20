@@ -31,33 +31,33 @@ const staticCategories = [
 
 // Initial placeholder products (shown instantly)
 const initialProductPlaceholders = [
-  { 
-    id: 128574, 
-    slug: "/gamebox-64-retro-console-20000-preloaded-games-4k-hdmi-wireless-controllers", 
-    name: "GameBox 64 Retro Console – 20,000+ Preloaded Games with 4K HDMI & Wireless Controllers", 
-    price: "79.90",  
-    images: [{ src: Static1 }]  
+  {
+    id: 210001,
+    slug: "porodo-trackfit-smart-fitness-band-black-orange",
+    name: "Porodo TrackFit Screenless Fitness Band",
+    price: "99.00",
+    images: [{ src: require('../../../assets/images/staticproducts/PorodoTrackFit/1.webp') }]
   },
-  { 
-    id: 126009, 
-    slug: "mini-portable-smart-projector", 
-    name: "Mini Portable Smart Projector", 
-    price: "149.90", 
-    images: [{ src: Static2 }] 
+  {
+    id: 210002,
+    slug: "airtab-17-5g-smartphone",
+    name: "AirTab 17 Pro Max 5G Smartphone",
+    price: "269.00",
+    images: [{ src: require('../../../assets/images/staticproducts/airtab-mini/1.webp') }]
   },
-  { 
-    id: 125961, 
-    slug: "twin-size-air-mattress-with-built-in-rechargeable-pump-16-self-inflating-blow-up-bed-for-home-camping-guests", 
-    name: "Twin Size Air Mattress with Built-in Rechargeable Pump – 16 Self-Inflating Blow Up Bed for Home, Camping & Guests", 
-    price: "179.00", 
-    images: [{ src: Static3 }] 
+  {
+    id: 210003,
+    slug: "drill-kit-with-2-battery–ultimate-cordless-power-tool-set",
+    name: "Drill Kit with 2 Battery – Ultimate Cordless Power Tool Set",
+    price: "109.90",
+    images: [{ src: require('../../../assets/images/staticproducts/drill-machine/1.webp') }]
   },
-  { 
-    id: 125925, 
-    slug: "trimpro-21v-cordless-electric-pruning-shears", 
-    name: "TrimPro™ 21V Cordless Electric Pruning Shears", 
-    price: "119.90", 
-    images: [{ src: Static4 }] 
+  {
+    id: 210004,
+    slug: "mini-portable-smart-projector",
+    name: "Mini Portable Smart Projector",
+    price: "149.90",
+    images: [{ src: require('../../../assets/images/staticproducts/minproject/1.webp') }]
   },
 ];
 
@@ -114,10 +114,10 @@ const getNext2AM = () => {
 
 const GridCategories = () => {
   const [products, setProducts] = useState([
-    initialProductPlaceholders[1],
-    initialProductPlaceholders[3],
     initialProductPlaceholders[0],
+    initialProductPlaceholders[1],
     initialProductPlaceholders[2],
+    initialProductPlaceholders[3],
   ]);
   const [banners, setBanners] = useState([]);
   const [currentBanner, setCurrentBanner] = useState(0);
