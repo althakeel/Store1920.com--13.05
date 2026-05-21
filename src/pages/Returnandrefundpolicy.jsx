@@ -142,8 +142,39 @@ const sections = [
     ),
   },
   {
+    id: 'mobile-devices',
+    title: '8. Used Mobile Devices Not Eligible for Returns',
+    content: (
+      <>
+        <p>
+          <strong>Used mobile devices are not eligible for returns.</strong>
+        </p>
+        <p>
+          Mobile devices, including smartphones, tablets, and related accessories, are excluded from our standard return policy if they have been used. 
+          This includes devices that show any signs of use, even minor ones such as:
+        </p>
+        <br />
+        <ul>
+          <li>Screen usage or activation of the device</li>
+          <li>Removal of protective seals or packaging</li>
+          <li>Any software installation or updates</li>
+          <li>Connection to any network or service</li>
+          <li>Physical wear or cosmetic changes</li>
+        </ul>
+        <p>
+          <strong>Exception:</strong> If a mobile device is defective, damaged by our/seller's fault, or arrives dead/non-functional, 
+          it may still qualify for a replacement or refund under our defective product warranty. In such cases, contact our support team immediately with proof of the defect.
+        </p>
+        <p>
+          <strong>Manufacturer Warranty:</strong> Mobile devices come with manufacturer warranties that cover manufacturing defects and are valid for the warranty period stated by the manufacturer. 
+          Please refer to the manufacturer's warranty for coverage details.
+        </p>
+      </>
+    ),
+  },
+  {
     id: 'important-notices',
-    title: '8. Important Notices',
+    title: '9. Important Notices',
     content: (
       <>
         <ul>
