@@ -173,8 +173,8 @@ const GridCategories = () => {
   // Set banners
   useEffect(() => {
     setBanners([
-      { id: 1, image: "https://db.store1920.com/wp-content/uploads/2026/05/Sub-1.webp" },
-      { id: 2, image: "https://db.store1920.com/wp-content/uploads/2026/05/sub-2.webp" },
+      { id: 1, image: "https://db.store1920.com/wp-content/uploads/2026/06/sub-1.webp" },
+      { id: 2, image: "https://db.store1920.com/wp-content/uploads/2026/06/sub-2.webp" },
     ]);
   }, []);
 
