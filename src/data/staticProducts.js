@@ -2749,12 +2749,12 @@ const staticProducts = [
   regularPrice: 999.0,
 
   description:
-    "24GB RAM + 1TB storage in a bold fast-delivery phone concept built for streaming, multitasking, photos, and daily heavy use.",
+    "Android set with 24GB RAM + 1TB storage in a bold fast-delivery phone concept built for streaming, multitasking, photos, and daily heavy use.",
   shortdesc:
-    'Large 6.85-inch display, 5G-ready positioning, triple AI camera styling, and a 5000mAh battery - now set up on the same reusable product detail design as your other static items.',
+    'Android set with a large 6.85-inch display, 5G-ready positioning, triple AI camera styling, and a 5000mAh battery - now set up on the same reusable product detail design as your other static items.',
 
-  subdesc: "24GB RAM + 1TB Storage",
-  subdesc1: '6.85-inch HD+ Edge-to-Edge Display',
+  subdesc: "Android set — 24GB RAM + 1TB Storage",
+  subdesc1: "Android-powered 6.85-inch HD+ Edge-to-Edge Display",
   subdesc2: "Triple AI Rear Camera + Selfie Lens",
   subdesc3: "5000mAh All-Day Battery",
   subdesc4: "Fast Delivery Across UAE",
@@ -2811,8 +2811,9 @@ const staticProducts = [
 
   section2contentTitle: "Tired of Phones That Lag, Freeze, and Run Out of Space?",
   section2contentDesc:
-    "AirTab 17 5G is positioned as the answer for users who want more memory, bigger storage, a larger screen, and all-day battery life without stepping into premium-brand pricing.",
+    "AirTab 17 5G is positioned as the Android set answer for users who want more memory, bigger storage, a larger screen, and all-day battery life without stepping into premium-brand pricing.",
   section2list: [
+    "Android set with smooth app performance",
     "24GB RAM for smoother multitasking",
     "1TB storage for photos, videos, and apps",
     '6.85-inch HD+ display for browsing and streaming',
@@ -2831,7 +2832,7 @@ const staticProducts = [
   section3title: "Built for Everyday Streaming, Social Apps, and Non-Stop Use",
   section3image: Product280,
   section3points: [
-    "Keep WhatsApp, Instagram, TikTok, and browser tabs open with less slowdown",
+    "Keep WhatsApp, Instagram, TikTok, and browser tabs open with less slowdown on Android",
     "Store more photos, videos, and work files without constant cleanup",
     "Use the large display for streaming, reading, and casual gaming",
     "Stay powered longer with a battery aimed at full-day routines",
