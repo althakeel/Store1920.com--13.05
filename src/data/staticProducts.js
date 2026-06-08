@@ -2756,9 +2756,9 @@ const staticProducts = [
   subdesc: "Android set — 24GB RAM + 1TB Storage",
   subdesc1: "Android-powered 6.85-inch HD+ Edge-to-Edge Display",
   subdesc2: "Triple AI Rear Camera + Selfie Lens",
-  subdesc3: "5000mAh All-Day Battery",
-  subdesc4: "Fast Delivery Across UAE",
-  subdesc5: "Cash on Delivery Available",
+  subdesc3: "This is not an iPhone; it runs on the Android operating system.",
+  subdesc4: "Cash on Delivery Available",
+
 
   image: Product279,
   thumb1: Product280,
