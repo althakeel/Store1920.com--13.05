@@ -5337,14 +5337,14 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
 // Dpofirs smart band 
 {
   id: 558668,
-  name: "Dpofirs Smart Band Fitness Tracker",
-  slug: "dpofirs-smart-band-fitness-tracker-black",
+  name: "Smart Band Fitness Tracker",
+  slug: "smart-band-fitness-tracker-black",
   price: 129.00,
   salePrice: 218.00,
   regularPrice: 289.90,
 
   description:
-    "Stay connected and take control of your fitness journey with the Dpofirs Smart Band. Track your activity, monitor your sleep.",
+    "Stay connected and take control of your fitness journey with the  Smart Band. Track your activity, monitor your sleep.",
 
   shortdesc:
     "Bluetooth 5.3 smart fitness bracelet with sleep monitoring, step tracking, calorie counting.",
@@ -5366,7 +5366,7 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
     {
       type: "1 Band",
       id: 558676,
-      name: "Dpofirs Smart Band Fitness Tracker",
+      name: "Smart Band Fitness Tracker",
       label: "Most Popular",
       discount: 0,
       price: 129.00,
@@ -5377,7 +5377,7 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
     {
       type: "2 Bands",
       id: 558678,
-      name: "Dpofirs Smart Band Fitness Tracker",
+      name: "Smart Band Fitness Tracker",
       label: "Save More",
       discount: 15,
       price: 218.90,
@@ -5387,7 +5387,7 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
     {
       type: "3 Bands",
       id: 558679,
-      name: "Dpofirs Smart Band Fitness Tracker",
+      name: "Smart Band Fitness Tracker",
       label: "Best Value",
       discount: 11,
       price: 289.93,
@@ -5401,7 +5401,7 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
   section2contentTitle: "Your Everyday Fitness Companion",
 
   section2contentDesc:
-    "The Dpofirs Smart Band helps you stay on top of your health goals by tracking your daily activities, monitoring your sleep quality, and keeping you connected throughout the day.",
+    "The  Smart Band helps you stay on top of your health goals by tracking your daily activities, monitoring your sleep quality, and keeping you connected throughout the day.",
 
   section2list: [
     "Records steps, calories burned, and exercise duration",
@@ -5458,11 +5458,11 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
   ],
 
   comparisonData: {
-    title: "Why Choose Dpofirs Smart Band?",
+    title: "Why Choose  Smart Band?",
     description:
       "A practical fitness tracker designed for everyday use without unnecessary complexity.",
 
-    headers: ["Feature", "Dpofirs Smart Band", "Basic Fitness Bands"],
+    headers: ["Feature", "Smart Band", "Basic Fitness Bands"],
 
     rows: [
       { feature: "Sleep Monitoring", lumineux: true, others: true },

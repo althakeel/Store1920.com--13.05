@@ -36,13 +36,13 @@ const MOBILE_COLUMNS = 2;
 
 const staticProducts = [
    {
-    id: "dpofirs-smart-band-fitness-tracker-black",
-    name: "Dpofirs Smart Band Fitness Tracker",
+    id: "smart-band-fitness-tracker-black",
+    name: "Smart Band Fitness Tracker",
     price: "129.00",
     regular_price: "180.00",
     sale_price: "129.00",
     images: [{ src: Product290 }],
-    path: "/products/dpofirs-smart-band-fitness-tracker-black",
+    path: "/products/smart-band-fitness-tracker-black",
     rating: 4,
     reviews: 2,
     sold: 28,
