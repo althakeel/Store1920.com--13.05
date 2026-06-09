@@ -269,6 +269,13 @@ import Product282 from "../assets/images/staticproducts/airtab-mini/4.webp";
 import Product283 from "../assets/images/staticproducts/PorodoTrackFit/5.webp";
 import Product284 from "../assets/images/staticproducts/PorodoTrackFit/6.webp";
 
+import Product290 from "../assets/images/staticproducts/DpofirsSmartBand/1.webp";
+import Product291 from "../assets/images/staticproducts/DpofirsSmartBand/2.webp";
+import Product292 from "../assets/images/staticproducts/DpofirsSmartBand/3.webp";
+import Product293 from "../assets/images/staticproducts/DpofirsSmartBand/4.webp";
+import Product294 from "../assets/images/staticproducts/DpofirsSmartBand/5.webp";
+import Product295 from "../assets/images/staticproducts/DpofirsSmartBand/6.webp";
+
 
 
 
@@ -3970,49 +3977,7 @@ reviews: [
 
 },
 
-
 //quran product - rohith
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 {
@@ -5160,16 +5125,6 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
 `,
 }
 
-
-
-
- 
-
-
-
-//rohith
- 
-
 ,
 {
   id: 543443,
@@ -5378,6 +5333,201 @@ AED 20 Credit for Delay
 Grow With Your Baby - One Stroller, Six Years of Use
 Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapts with your baby from the first week all the way to age 6 - saving money, storage space, and hassle.
 `,
+},
+// Dpofirs smart band 
+{
+  id: 558668,
+  name: "Dpofirs Smart Band Fitness Tracker",
+  slug: "dpofirs-smart-band-fitness-tracker-black",
+  price: 129.00,
+  salePrice: 218.00,
+  regularPrice: 289.90,
+
+  description:
+    "Stay connected and take control of your fitness journey with the Dpofirs Smart Band. Track your activity, monitor your sleep, and capture memories remotely from your wrist.",
+
+  shortdesc:
+    "Bluetooth 5.3 smart fitness bracelet with sleep monitoring, step tracking, calorie counting, and remote camera control.",
+
+  subdesc: "Remote Camera Control",
+  subdesc1: "Sleep Monitoring",
+  subdesc2: "Step & Calorie Tracking",
+  subdesc3: "Multiple Sports Modes",
+  subdesc4: "Daily Water Resistant",
+
+  image: Product290,
+  thumb1: Product291,
+  thumb2: Product292,
+  thumb3: Product293,
+  thumb4: Product294,
+  thumb5: Product295,
+
+  bundles: [
+    {
+      type: "1 Band",
+      id: 558676,
+      name: "Dpofirs Smart Band Fitness Tracker",
+      label: "Most Popular",
+      discount: 0,
+      price: 129.00,
+      originalPrice: 180.00,
+      image: Product290,
+      mostPopular: true,
+    },
+    {
+      type: "2 Bands",
+      id: 558678,
+      name: "Dpofirs Smart Band Fitness Tracker",
+      label: "Save More",
+      discount: 15,
+      price: 218.90,
+      originalPrice: 360.14,
+      image: Product291,
+    },
+    {
+      type: "3 Bands",
+      id: 558679,
+      name: "Dpofirs Smart Band Fitness Tracker",
+      label: "Best Value",
+      discount: 11,
+      price: 289.93,
+      originalPrice: 480.90,
+      image: Product292,
+    },
+  ],
+
+  BundleTitle: "BUNDLE & SAVE",
+
+  section2contentTitle: "Your Everyday Fitness Companion",
+
+  section2contentDesc:
+    "The Dpofirs Smart Band helps you stay on top of your health goals by tracking your daily activities, monitoring your sleep quality, and keeping you connected throughout the day.",
+
+  section2list: [
+    "Remote photography control via Bluetooth connection",
+    "Records steps, calories burned, and exercise duration",
+    "Visualized health reports through the companion app",
+    "Supports multiple sports modes for different workouts",
+    "Lightweight design for all-day comfort",
+    "Suitable for daily water exposure and rainy weather",
+  ],
+
+  section2contentPoints: [
+    "Free UAE Shipping",
+    "Cash on Delivery",
+    "15-Day Returns",
+    "Secure Checkout",
+  ],
+
+  section2image: Product293,
+
+  section3title: "Smart Features That Move With You",
+
+  section3image: Product294,
+
+  section3points: [
+    "Remote Photography",
+    "Sleep Monitoring",
+    "Sports Tracking",
+    "Ultra-Light Design",
+  ],
+
+  sectionProgressTitle: "Why Customers Love It",
+
+  sectionProgressSubtitle: "Designed for Daily Wellness",
+
+  sectionProgress: [
+    {
+      title: "Improved Activity Awareness",
+      desc: "Users stay motivated by tracking their daily movement.",
+      percent: 94,
+    },
+    {
+      title: "Better Sleep Insights",
+      desc: "Sleep reports help users improve their nighttime routines.",
+      percent: 91,
+    },
+    {
+      title: "Workout Convenience",
+      desc: "Multiple sports modes support different fitness activities.",
+      percent: 89,
+    },
+    {
+      title: "Comfort for All-Day Wear",
+      desc: "Its lightweight design makes it easy to forget you're wearing it.",
+      percent: 96,
+    },
+  ],
+
+  comparisonData: {
+    title: "Why Choose Dpofirs Smart Band?",
+    description:
+      "A practical fitness tracker designed for everyday use without unnecessary complexity.",
+
+    headers: ["Feature", "Dpofirs Smart Band", "Basic Fitness Bands"],
+
+    rows: [
+      { feature: "Remote Camera Control", lumineux: true, others: false },
+      { feature: "Sleep Monitoring", lumineux: true, others: true },
+      { feature: "Multiple Sports Modes", lumineux: true, others: false },
+      { feature: "Step & Calorie Tracking", lumineux: true, others: true },
+      { feature: "Ultra-Lightweight Design", lumineux: true, others: false },
+      { feature: "Daily Water Resistance", lumineux: true, others: false },
+    ],
+  },
+
+  section5image: Product295,
+
+  Guaranteetitle: "15-Day Return Policy",
+
+  Guranteedesc:
+    "Shop with confidence. Enjoy hassle-free returns within 15 days and secure checkout.",
+
+  Faq1Q: "Can I control my phone camera remotely?",
+  fAQ1A:
+    "Yes. The smart band supports remote photography through Bluetooth, allowing you to capture photos with a tap.",
+
+  Faq2Q: "What fitness data does it track?",
+  fAQ2A:
+    "It tracks steps, calories burned, exercise duration, and provides activity reports through the companion app.",
+
+  Faq3Q: "Does it support different sports modes?",
+  fAQ3A:
+    "Yes. It includes multiple sports modes such as outdoor running, indoor running, outdoor cycling, and stationary cycling.",
+
+  Faq4Q: "Is it waterproof?",
+  fAQ4A:
+    "It is designed for daily water exposure such as hand washing, rain, and shower splashes. It is not recommended for deep diving.",
+
+  Faq5Q: "How lightweight is the band?",
+  fAQ5A:
+    "The band weighs approximately 16.5g and measures only 5.6mm thick for comfortable all-day wear.",
+
+  Faq6Q: "What phones are supported?",
+  fAQ6A:
+    "It supports Android smartphones with Bluetooth connectivity.",
+
+  reviewsTitle: "What Customers Are Saying",
+
+  reviewsRating: 4.5,
+
+  reviews: [
+    {
+      text: "The remote camera feature is surprisingly useful. Great value for the price.",
+      author: "Ahmed S. – Dubai",
+      stars: 5,
+    },
+    {
+      text: "Comfortable to wear and the sleep tracking works really well.",
+      author: "Sarah M. – Sharjah",
+      stars: 4,
+    },
+    {
+      text: "I mainly use it for counting steps and cycling. Easy to set up.",
+      author: "Omar K. – Abu Dhabi",
+      stars: 5,
+    },
+  ],
 }
 
 ];

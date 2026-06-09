@@ -28,11 +28,25 @@ import Product274 from '../assets/images/staticproducts/PorodoTrackFit/1.webp';
 import Product279 from '../assets/images/staticproducts/airtab-mini/5.webp';
 import Product29 from '../assets/images/staticproducts/porodoband/3.webp';
 import NoItemImage from '../assets/images/noitem.png';
+import Product290 from '../assets/images/staticproducts/DpofirsSmartBand/1.webp';
+
 
 const DESKTOP_COLUMNS = 5;
 const MOBILE_COLUMNS = 2;
 
 const staticProducts = [
+   {
+    id: "dpofirs-smart-band-fitness-tracker-black",
+    name: "Dpofirs Smart Band Fitness Tracker",
+    price: "129.00",
+    regular_price: "180.00",
+    sale_price: "129.00",
+    images: [{ src: Product290 }],
+    path: "/products/dpofirs-smart-band-fitness-tracker-black",
+    rating: 4,
+    reviews: 2,
+    sold: 28,
+  },
   {
     id: "porodo-trackfit-smart-fitness-band-black-orange",
     name: "Porodo TrackFit Screenless Fitness Band",
@@ -346,6 +360,7 @@ const staticProducts = [
     reviews: 96,
     sold: 148,
   },
+  
 ];
 const SkeletonCard = ({ isMobile }) => {
   return (
