@@ -5344,16 +5344,16 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
   regularPrice: 289.90,
 
   description:
-    "Stay connected and take control of your fitness journey with the Dpofirs Smart Band. Track your activity, monitor your sleep, and capture memories remotely from your wrist.",
+    "Stay connected and take control of your fitness journey with the Dpofirs Smart Band. Track your activity, monitor your sleep.",
 
   shortdesc:
-    "Bluetooth 5.3 smart fitness bracelet with sleep monitoring, step tracking, calorie counting, and remote camera control.",
+    "Bluetooth 5.3 smart fitness bracelet with sleep monitoring, step tracking, calorie counting.",
 
-  subdesc: "Remote Camera Control",
-  subdesc1: "Sleep Monitoring",
-  subdesc2: "Step & Calorie Tracking",
-  subdesc3: "Multiple Sports Modes",
-  subdesc4: "Daily Water Resistant",
+
+  subdesc: "Sleep Monitoring",
+  subdesc1: "Step & Calorie Tracking",
+  subdesc2: "Multiple Sports Modes",
+  subdesc3: "Daily Water Resistant",
 
   image: Product290,
   thumb1: Product291,
@@ -5404,7 +5404,6 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
     "The Dpofirs Smart Band helps you stay on top of your health goals by tracking your daily activities, monitoring your sleep quality, and keeping you connected throughout the day.",
 
   section2list: [
-    "Remote photography control via Bluetooth connection",
     "Records steps, calories burned, and exercise duration",
     "Visualized health reports through the companion app",
     "Supports multiple sports modes for different workouts",
@@ -5426,7 +5425,6 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
   section3image: Product294,
 
   section3points: [
-    "Remote Photography",
     "Sleep Monitoring",
     "Sports Tracking",
     "Ultra-Light Design",
@@ -5467,7 +5465,6 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
     headers: ["Feature", "Dpofirs Smart Band", "Basic Fitness Bands"],
 
     rows: [
-      { feature: "Remote Camera Control", lumineux: true, others: false },
       { feature: "Sleep Monitoring", lumineux: true, others: true },
       { feature: "Multiple Sports Modes", lumineux: true, others: false },
       { feature: "Step & Calorie Tracking", lumineux: true, others: true },
@@ -5483,9 +5480,6 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
   Guranteedesc:
     "Shop with confidence. Enjoy hassle-free returns within 15 days and secure checkout.",
 
-  Faq1Q: "Can I control my phone camera remotely?",
-  fAQ1A:
-    "Yes. The smart band supports remote photography through Bluetooth, allowing you to capture photos with a tap.",
 
   Faq2Q: "What fitness data does it track?",
   fAQ2A:
@@ -5513,7 +5507,7 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
 
   reviews: [
     {
-      text: "The remote camera feature is surprisingly useful. Great value for the price.",
+      text: "A very useful fitness tracker. Great value for the price.",
       author: "Ahmed S. – Dubai",
       stars: 5,
     },
