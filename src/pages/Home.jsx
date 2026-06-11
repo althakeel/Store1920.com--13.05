@@ -34,15 +34,17 @@ const Home = ({ setNavbarColor }) => {
     // Update navbar color
     setNavbarColor?.(currentTheme.navbarBg);
 
-    // Use static banner from theme
-   const staticBanner = {
-  id: 1,
-  url: currentTheme.bannerKey,
-  mobileUrl: currentTheme.bannerKey,
-  bgColor: currentTheme.bannerBg, // 👈 single color
-  category: null
-};
-    setBanners([staticBanner]);
+    const bannerImages = currentTheme.bannerKeys || [currentTheme.bannerKey];
+    const staticBanners = bannerImages.filter(Boolean).map((bannerImage, index) => ({
+      id: index + 1,
+      url: bannerImage,
+      mobileUrl: bannerImage,
+      bgColor: currentTheme.bannerBg,
+      link: index === 1 ? '/fast-delivery' : currentTheme.link,
+      category: null
+    }));
+
+    setBanners(staticBanners);
   }, [currentTheme, setNavbarColor]);
 
   // --- 3. Render UI ---

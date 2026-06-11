@@ -165,19 +165,21 @@
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   border: none;
   background: rgba(255, 255, 255, 0.5);
   cursor: pointer;
-  transition: background 0.2s ease;
-  display: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+  display: block;
+  padding: 0;
 }
 
 .dot.active,
 .dot:hover {
   background: #ff6a00;
+  transform: scale(1.12);
 }
 
 /* Loading / Error */

@@ -31,6 +31,7 @@ const preloadImage = (src) =>
 
 const MainBanner = ({ banners = [], themeLink, onBannerClick }) => {
   const navigate = useNavigate();
+  const [activeIndex, setActiveIndex] = useState(0);
   const [currentBanner, setCurrentBanner] = useState(null);
   const [previousBanner, setPreviousBanner] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -49,13 +50,34 @@ const MainBanner = ({ banners = [], themeLink, onBannerClick }) => {
 
   useEffect(() => {
     if (!banners || banners.length === 0) {
+      setActiveIndex(0);
+      return;
+    }
+
+    if (activeIndex >= banners.length) {
+      setActiveIndex(0);
+    }
+  }, [activeIndex, banners]);
+
+  useEffect(() => {
+    if (!banners || banners.length <= 1) return;
+
+    const timer = setInterval(() => {
+      setActiveIndex((index) => (index + 1) % banners.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [banners]);
+
+  useEffect(() => {
+    if (!banners || banners.length === 0) {
       setCurrentBanner(null);
       setPreviousBanner(null);
       setIsTransitioning(false);
       return;
     }
 
-    const nextBanner = banners[0];
+    const nextBanner = banners[activeIndex] || banners[0];
     const resolvedUrl = isMobile ? nextBanner.mobileUrl || nextBanner.url : nextBanner.url;
     const bannerToShow = { ...nextBanner, resolvedUrl };
     const current = currentBannerRef.current;
@@ -87,7 +109,7 @@ const MainBanner = ({ banners = [], themeLink, onBannerClick }) => {
     return () => {
       isCancelled = true;
     };
-  }, [banners, isMobile]);
+  }, [activeIndex, banners, isMobile]);
 
   useEffect(() => {
     if (!isTransitioning) return;
@@ -106,7 +128,19 @@ const MainBanner = ({ banners = [], themeLink, onBannerClick }) => {
       return;
     }
 
-    navigate('/products/mansory-special-edition-scooter-sm10');
+    const targetLink = currentBanner?.link || themeLink || '/products/mansory-special-edition-scooter-sm10';
+
+    if (/^https?:\/\//i.test(targetLink)) {
+      window.location.href = targetLink;
+      return;
+    }
+
+    navigate(targetLink);
+  };
+
+  const handleDotClick = (event, index) => {
+    event.stopPropagation();
+    setActiveIndex(index);
   };
 
   if (!currentBanner) {
@@ -143,6 +177,20 @@ const MainBanner = ({ banners = [], themeLink, onBannerClick }) => {
           fetchPriority="high"
           decoding="sync"
         />
+        {banners.length > 1 && (
+          <div className="banner-dots" aria-label="Banner slides">
+            {banners.map((banner, index) => (
+              <button
+                key={banner.id || banner.url || index}
+                type="button"
+                className={`dot ${index === activeIndex ? 'active' : ''}`}
+                aria-label={`Show banner ${index + 1}`}
+                aria-current={index === activeIndex ? 'true' : undefined}
+                onClick={(event) => handleDotClick(event, index)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
