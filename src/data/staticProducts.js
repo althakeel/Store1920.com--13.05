@@ -461,7 +461,7 @@ const staticProducts = [
     id: 494574,
     name: "48V Cordless Portable Car Wash Pressure Washer Gun with Dual Battery – High Power Cleaning Machine for Cars, Bikes & Home",
     slug: "48v-cordless-portable-car-wash-pressure-washer-gun-with-dual",
-    price: 69.90,
+    price: 75.00,
     description:
       "Make Every Wash Easy – 48V Cordless Car & Home Pressure Washer",
     shortdesc:
@@ -491,8 +491,8 @@ const staticProducts = [
         id: 494574,
         productName: "48V Cordless Portable Car Wash Pressur",
         discount: 0,
-        price: 69.90,
-        originalPrice: 89.9,
+        price: 75.00,
+        originalPrice: 120.00,
         image: Product1,
       },
       {
@@ -500,8 +500,8 @@ const staticProducts = [
         id: 523374,
         productName: "48V Cordless Portable Car Wash Pressur",
         discount: 10,
-        price: 125.00,
-        originalPrice: 189.8,
+        price: 129.00,
+        originalPrice: 195.8,
         note: "Perfect for you & a friend",
         mostPopular: true,
         image: Product3,
@@ -511,7 +511,7 @@ const staticProducts = [
         id: 523376,
         productName: "48V Cordless Portable Car Wash Pressur",
         discount: 18,
-        price: 171.90,
+        price: 138.90,
         originalPrice: 209.7,
         note: "Get 25% OFF",
         image: Product3,
@@ -1265,7 +1265,7 @@ const staticProducts = [
     id: 523106,
     name: "GameBox 64 Retro Console – 20,000+ Preloaded Games with 4K HDMI & Wireless Controllers",
     slug: "gamebox-64-retro-console-20000-preloaded-games-4k-hdmi-wireless-controllers",
-    price: 99.90,
+    price: 109.90,
     description: "Turn Your TV into the Ultimate Retro Gaming Console",
     shortdesc:
       " 20,000+ classic games | 64GB storage | Plug & Play | Stunning 4K visuals ",
@@ -1295,7 +1295,7 @@ const staticProducts = [
         name: "GameBox 64 Retro Console",
         label: "Buy 1 for Only 88 AED",
         discount: 0,
-        price: 99.90,
+        price: 109.90,
         originalPrice: 145.99,
         image: Product73,
       },
@@ -1305,7 +1305,7 @@ const staticProducts = [
         name: "GameBox 64 Retro Console",
         label: "Buy 2 & Get 10% Off",
         discount: 10,
-        price: 179.90, // ≈ 118.83 AED
+        price: 189.90, // ≈ 118.83 AED
         originalPrice: +(69.9 * 2).toFixed(2), // 139.8 AED
         note: "Perfect for you & a friend",
         mostPopular: true,
@@ -1317,7 +1317,7 @@ const staticProducts = [
         name: "GameBox 64 Retro Console",
         label: "Buy 3 & Get 18% Off",
         discount: 0,
-        price: 245.90, // ≈ 157.28 AED
+        price: 198.34, // ≈ 157.28 AED
         originalPrice: +(69.9 * 3).toFixed(2),
         note: "Best Value",
         image: Product82,
@@ -1575,7 +1575,7 @@ const staticProducts = [
     id: 523418,
     name: "Cordless Leaf Blower",
     slug: "cordless-2-in-1-leaf-blower-vacuum",
-    price: 69.90,
+    price: 79.00,
     description:
       "17000 RPM |Single Battery Powered | Wireless | Lightweight & Portable",
     shortdesc: "Blow, Vacuum, and Clean — All with One Tool",
@@ -1605,7 +1605,7 @@ const staticProducts = [
         name: "Cordless Leaf Blower ",
         label: "Single Battery for Only 69.9 AED",
         discount: 0,
-        price: 69.9,
+        price: 79.0,
         originalPrice: 189,
         image: Product96,
       },
@@ -1615,7 +1615,7 @@ const staticProducts = [
         name: "Cordless Leaf Blower ",
         label: "Double Battery & Get 15% Off",
         discount: 15,
-        price: 79.90, // 15% off on 2 items
+        price: 85.00, // 15% off on 2 items
         originalPrice: 139, // 139.80 AED
         note: "Perfect for you & a friend",
         mostPopular: true,
@@ -1720,7 +1720,7 @@ const staticProducts = [
     id: 523759,
     name: "Turbo Cordless Leaf Blower – 21V Power for Every Task",
     slug: "turbo-cordless-leaf-blower-21v-power-for-every-task",
-    price: 69.90,
+    price: 55.00,
     description:
       "Lightweight | Powerful Turbine Motor | Dual Battery Option ",
     shortdesc:
@@ -1752,7 +1752,7 @@ const staticProducts = [
         name: "Turbo Cordless Leaf Blower – 21V Power for Every Task - Single Battery",
         label: "Ideal for quick cleanups & small areas.",
         discount: 47,
-        price: 69.90,
+        price: 55.00,
         originalPrice: 99.98,
         image: Products118,
       },
@@ -1763,7 +1763,7 @@ const staticProducts = [
         label:
           "Extended runtime for large spaces & heavy use. Each battery is 21V large-capacity lithium, offering efficient, long-lasting power.",
         discount: 48,
-        price: 79.90,
+        price: 75.00,
         originalPrice: 129.0,
         note: "",
         mostPopular: true,
@@ -1878,7 +1878,7 @@ const staticProducts = [
     id: 523794,
     name: "Steam Cleaner DF-A001 – Japan Technology",
     slug: "steam-cleaner-df-a001-japan-technology",
-    price: 89.90,
+    price: 99.90,
     description:
       "Powerful 1000W | Multi-Surface Cleaning | Portable & Chemical-Free",
     shortdesc:
@@ -1909,7 +1909,7 @@ const staticProducts = [
         name: "Steam Cleaner DF-A001 – Japan Technology",
         label: "Buy 1 for Only 112.50 AED",
         discount: 0,
-        price: 89.90,
+        price: 99.90,
         originalPrice: 89.9,
         image: Product136,
       },
@@ -1919,7 +1919,7 @@ const staticProducts = [
         name: "Steam Cleaner DF-A001 – Japan Technology",
         label: "Buy 2 & Get 10% Off",
         discount: 10,
-        price: 161.90, // 10% off on total 179.8
+        price: 169.90, // 10% off on total 179.8
         originalPrice: 179.8,
         note: "Perfect for you & a friend",
         mostPopular: true,
@@ -1931,7 +1931,7 @@ const staticProducts = [
         name: "Steam Cleaner DF-A001 – Japan Technology",
         label: "Buy 3 & Get 18% Off",
         discount: 18,
-        price: 220.90, // 25% off on total 269.7
+        price: 178.49, // 25% off on total 269.7
         originalPrice: 269.7,
         note: "Best Value",
         image: Product142,
@@ -2934,8 +2934,8 @@ const staticProducts = [
   slug: "drill-kit-with-2-battery–ultimate-cordless-power-tool-set", 
 
   // ✅ Price according to content (AED 99.90)
-  price: 109.90,
-  salePrice: 109.90,
+  price: 119.90,
+  salePrice: 119.90,
   regularPrice: 199.0,
 
   // ✅ Hero description + shortdesc
@@ -2972,7 +2972,7 @@ const staticProducts = [
       label: "Buy 1 for only 99.90 AED",
       discount: 0,
       slug: "12V-cordless-drill-set–high-power-precision-potal-control",
-      price: 109.90,
+      price: 119.90,
       originalPrice: 120,
       image: Product197,
     },
@@ -2982,7 +2982,7 @@ const staticProducts = [
       name: "12V Cordless Drill Set",
       label: "Buy 2 & Save More – Perfect for home + workshop",
       discount: 10,
-      price: 189.90, // tum apne hisaab se change bhi kar sakte ho
+      price: 195.00, // tum apne hisaab se change bhi kar sakte ho
       originalPrice: 290,
       note: "Ideal for gifting or keeping one at home and one at work",
       mostPopular: true,
@@ -2995,7 +2995,7 @@ const staticProducts = [
       name: "12V Cordless Drill Set",
       label: "Buy 3 & Save More – Perfect for home + workshop",
       discount: 18,
-      price: 269.90, // tum apne hisaab se change bhi kar sakte ho
+      price: 206.06, // tum apne hisaab se change bhi kar sakte ho
       originalPrice: 370,
       note: "Ideal for gifting or keeping one at home and one at work",
       mostPopular: false,
@@ -3269,7 +3269,7 @@ Upgrade Your Toolbox Today — Power, Precision & Durability for AED 99.90
   slug: "neck-face-massager", // URL: /products/neck-face-massager
 
   // ✅ Price
-  price: 59.90,
+  price: 64.99,
   salePrice: 99.99,
   regularPrice: 199.0,
 
@@ -3307,7 +3307,7 @@ Upgrade Your Toolbox Today — Power, Precision & Durability for AED 99.90
       label: "Buy 1 for only AED 79.99",
       discount: 0,
       slug: "neck-face-massager",
-      price: 59.90,
+      price: 64.90,
       originalPrice: 99.99,
       image: Product206,
     },
@@ -3317,7 +3317,7 @@ Upgrade Your Toolbox Today — Power, Precision & Durability for AED 99.90
       name: "7-Color LED Neck & Face Sculpting Massager",
       label: "Buy 2 & Save More – Perfect for gifting or couples",
       discount: 15,
-      price: 107.90, // you can adjust these later
+      price: 115.0, // you can adjust these later
       originalPrice: 177.00,
       note: "Great for home use and as a gift",
       mostPopular: true,
@@ -3330,7 +3330,7 @@ Upgrade Your Toolbox Today — Power, Precision & Durability for AED 99.90
       name: "7-Color LED Neck & Face Sculpting Massager",
       label: "Buy 3 & Save More – Family beauty bundle",
       discount: 15,
-      price: 146.90, // adjustable
+      price: 118.96, // adjustable
       originalPrice: 222,
       note: "Ideal for family or multiple rooms",
       mostPopular: false,
@@ -3984,8 +3984,8 @@ reviews: [
   id: 543934, 
   name: "Quran Magnet Speaker with Built-In Quran",
   slug: "quran-magnet-speaker-built-in-surah-player", 
-  price: 69.90,
-  salePrice: 69.90,
+  price: 75.00,
+  salePrice: 75.00,
   regularPrice: 150.99,
 
   description:
@@ -4021,7 +4021,7 @@ reviews: [
       label: "Buy 1 for only 69.90 AED",
       discount: 0,
       slug: "quran-magnet-speaker-built-in-surah-player",
-      price: 69.90,
+      price: 75.00,
         note: "Ideal for personal daily listening.",
       originalPrice: 150.99,
       image: Product241,
@@ -4032,7 +4032,7 @@ reviews: [
       name: "Quran Magnet Speaker with Built-In Quran",
       label: "Buy 2 & Get 15% Off",
       discount: 15,
-      price: 125.90, 
+      price: 135.00, // example: 89.9 * 2 * 0.85
       originalPrice: 285,
       mostPopular: true,
       note: "Great for couples or gifting.",
@@ -4045,7 +4045,7 @@ reviews: [
       name: "Quran Magnet Speaker with Built-In Quran",
       label: "Buy 3 & Get 20% Off",
       discount: 20,
-      price: 171.90, 
+      price: 138.00, 
       originalPrice: 429,
     note: "Best value for families or gifts.",
       mostPopular: false,
@@ -4171,8 +4171,8 @@ reviews: [
   id: 530990, 
   name: "Holy Wall Quran Speaker with Bluetooth, Remote and Ambient Light",
   slug: "holy-wall-speaker-bluetooth-quran-light-speaker", 
-  price: 79.90,
-  salePrice: 79.90,
+  price: 85.00,
+  salePrice: 85.00,
   regularPrice: 150.99,
 
   description:
@@ -4205,10 +4205,10 @@ reviews: [
       type: "Buy 1",
       id: 530991,
       name: "Holy Wall Quran Speaker",
-      label: "Buy 1 for only 79.90 AED",
+      label: "Buy 1 for only 85.00 AED",
       discount: 0,
       slug: "holy-wall-speaker-bluetooth-quran-light-speaker",
-      price: 79.90,
+      price: 85.00,
         note: "Ideal for personal daily listening.",
       originalPrice: 150.99,
       image: Product246,
@@ -4219,7 +4219,7 @@ reviews: [
       name: "Holy Wall Quran Speaker",
       label: "Buy 2 & Get 15% Off",
       discount: 15,
-      price: 143.90, 
+      price: 150.00, 
       originalPrice: 180,
       mostPopular: true,
       note: "Great for couples or gifting.",
@@ -4232,7 +4232,7 @@ reviews: [
       name: "Holy Wall Quran Speaker",
       label: "Buy 3 & Get 20% Off",
       discount: 20,
-      price: 196.90, 
+      price: 158.65, 
       originalPrice: 320,
     note: "Best value for families or gifts.",
       mostPopular: false,
