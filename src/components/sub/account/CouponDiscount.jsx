@@ -26,7 +26,11 @@ export default function CouponDiscount({ onApplyCoupon }) {
         formData
       );
       if (response.data.success) {
-        const data = response.data.data;
+        const responseData = response.data.data;
+        const data =
+          responseData && typeof responseData === 'object'
+            ? { ...responseData, code: responseData.code || couponCode.trim() }
+            : responseData;
         if (typeof data === 'string' && data.toLowerCase().includes('usage limit')) {
           onApplyCoupon && onApplyCoupon(null);
           setLoading(false);

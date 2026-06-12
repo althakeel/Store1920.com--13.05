@@ -58,7 +58,7 @@ const getNormalizedOrderTotals = (orderData) => {
       );
 
     if (isGift) return sum;
-    return sum + getSafeAmount(item?.total);
+    return sum + getSafeAmount(item?.subtotal ?? item?.total);
   }, 0);
 
   const hasShippingTotalField =
@@ -81,11 +81,17 @@ const getNormalizedOrderTotals = (orderData) => {
     String(orderData?.payment_method || '').toLowerCase() === 'cod' ||
     String(orderData?.payment_method_title || '').toLowerCase() === 'cash on delivery';
   const couponLinesCount = Array.isArray(orderData?.coupon_lines) ? orderData.coupon_lines.length : 0;
+  const hasNamedCouponFee = (orderData?.fee_lines || []).some(
+    (fee) =>
+      getSafeAmount(fee?.total) < 0 &&
+      String(fee?.name || '').toLowerCase().includes('coupon')
+  );
 
   // Detect stale COD pay-now 5% artifact: COD order, no real coupon, and discount ~= 5%.
   const looksLikeStaleCodPayNowDiscount =
     isCOD &&
     couponLinesCount === 0 &&
+    !hasNamedCouponFee &&
     couponDiscountTotal === 0 &&
     feeDiscountTotal > 0 &&
     Math.abs(feeDiscountTotal - itemsSubtotal * 0.05) < 0.05;
@@ -96,7 +102,7 @@ const getNormalizedOrderTotals = (orderData) => {
 
   const displayTotal = isLikelyResidualCodUpsellDiscount
     ? expectedCodTotal
-    : (itemsSubtotal + shippingTotal);
+    : rawOrderTotal;
 
   return {
     itemsSubtotal,
@@ -207,8 +213,7 @@ export default function OrderSuccess() {
     if (sessionStorage.getItem(messageSentKey) === '1') return;
 
     const normalized = getNormalizedOrderTotals(orderData);
-    const codFinalAmount = Number((normalized.itemsSubtotal + normalized.shippingTotal).toFixed(2));
-    const shippingFreeTotal = Number(normalized.itemsSubtotal.toFixed(2));
+    const finalAmount = Number(normalized.displayTotal.toFixed(2));
 
     const items = (orderData.line_items || []).map((item) => {
       const quantity = Number.parseInt(item?.quantity, 10) || 1;
@@ -239,13 +244,13 @@ export default function OrderSuccess() {
             phone_number: orderData?.billing?.phone || orderData?.shipping?.phone || '',
           },
           items,
-          final_total: codFinalAmount,
-          total: shippingFreeTotal,
-          amount: shippingFreeTotal,
-          order_total: shippingFreeTotal,
-          shipping_total: 0,
-          shipping: 0,
-          delivery_fee: 0,
+          final_total: finalAmount,
+          total: finalAmount,
+          amount: finalAmount,
+          order_total: finalAmount,
+          shipping_total: normalized.shippingTotal,
+          shipping: normalized.shippingTotal,
+          delivery_fee: normalized.shippingTotal,
           tax_total: 0,
           total_tax: 0,
           tax: 0,

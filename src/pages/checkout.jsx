@@ -73,6 +73,7 @@ export default function CheckoutPage() {
   const [countries, setCountries] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [discount, setDiscount] = useState(0);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [coinDiscount, setCoinDiscount] = useState(0);
   const [formData, setFormData] = useState(createEmptyCheckoutFormData);
 
@@ -513,17 +514,9 @@ useEffect(() => {
     };
 
 
-    const isCodPayment = String(formData.paymentMethod || '').toLowerCase() === 'cod';
-    const effectiveDiscount = isCodPayment ? 0 : discount;
-
-    // Add discount and coinDiscount as negative fee lines if present
+    // WooCommerce applies and persists coupons from coupon_lines. Keep other
+    // checkout credits as fee lines because they are not WooCommerce coupons.
     const fee_lines = [];
-    if (effectiveDiscount > 0) {
-      fee_lines.push({
-        name: 'Coupon Discount',
-        total: (-effectiveDiscount).toFixed(2),
-      });
-    }
     if (coinDiscount > 0) {
       fee_lines.push({
         name: 'Coin Discount',
@@ -568,6 +561,9 @@ useEffect(() => {
         floor: sanitizeField(shipping.floor),
       },
       line_items,
+      coupon_lines: appliedCoupon?.code
+        ? [{ code: String(appliedCoupon.code).trim() }]
+        : [],
       shipping_lines:
         !hasDynamicProducts || discountedDynamicSubtotal >= FREE_SHIPPING_THRESHOLD
           ? []
@@ -789,7 +785,6 @@ return (
         handlePlaceOrder={handlePlaceOrder}
         createOrder={createOrder}
         discount={discount}
-        setDiscount={setDiscount}
       />
       <CheckoutRight
         cartItems={cartItems}
@@ -801,6 +796,7 @@ return (
         subtotal={subtotal}
         discount={discount}
         setDiscount={setDiscount}
+        setAppliedCoupon={setAppliedCoupon}
         coinDiscount={coinDiscount}
         setCoinDiscount={setCoinDiscount}
       />

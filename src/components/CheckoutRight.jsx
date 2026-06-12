@@ -96,7 +96,7 @@ const parsePrice = (raw) => {
 // -----------------------------
 // CheckoutRight Component
 // -----------------------------
-export default function CheckoutRight({ cartItems, formData, createOrder, clearCart, orderId, showForm = false, discount, setDiscount, coinDiscount, setCoinDiscount }) {
+export default function CheckoutRight({ cartItems, formData, createOrder, clearCart, orderId, showForm = false, discount, setDiscount, setAppliedCoupon, coinDiscount, setCoinDiscount }) {
   const [alert, setAlert] = useState({ message: '', type: 'info' });
   const [hoverMessage, setHoverMessage] = useState('');
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
@@ -471,8 +471,11 @@ console.log("✅ Wallet Payment Response =>", data);
       }
 
       const safeFeeLines = Array.isArray(order?.fee_lines) ? order.fee_lines : [];
-      const positiveFeeLines = safeFeeLines
-        .filter((fee) => Number(fee?.total || 0) >= 0)
+      const retainedFeeLines = safeFeeLines
+        .filter((fee) =>
+          Number(fee?.total || 0) >= 0 ||
+          String(fee?.name || '').toLowerCase().includes('coupon')
+        )
         .map((fee) => ({
           ...(fee?.id ? { id: fee.id } : {}),
           name: fee?.name || 'Fee',
@@ -484,8 +487,10 @@ console.log("✅ Wallet Payment Response =>", data);
         body: JSON.stringify({
           payment_method: 'cod',
           payment_method_title: 'Cash on Delivery',
-          fee_lines: positiveFeeLines,
-          coupon_lines: [],
+          fee_lines: retainedFeeLines,
+          coupon_lines: (order?.coupon_lines || [])
+            .filter((coupon) => coupon?.code)
+            .map((coupon) => ({ code: coupon.code })),
           set_paid: false,
           meta_data: [
             {
@@ -691,8 +696,10 @@ console.log("✅ Wallet Payment Response =>", data);
               // data: { amount, discount_type, ... }
               if (!data) {
                 setDiscount(0);
+                setAppliedCoupon?.(null);
                 return;
               }
+              setAppliedCoupon?.(data);
               if (data.discount_type === 'percent') {
                 // percent off subtotal
                 const percent = parseFloat(data.amount) || 0;
