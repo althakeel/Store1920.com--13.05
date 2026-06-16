@@ -5582,7 +5582,7 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
       name: "15 in 1 Push Up Board",
       label: "Best value",
       discount: 27,
-      price: 130.00,
+      price: 139.00,
       originalPrice: 177.00,
       note: "Best bundle price for family, friends, or small training groups.",
       image: Product298,
