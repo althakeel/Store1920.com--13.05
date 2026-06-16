@@ -29,12 +29,25 @@ import Product279 from '../assets/images/staticproducts/airtab-mini/5.webp';
 import Product29 from '../assets/images/staticproducts/porodoband/3.webp';
 import NoItemImage from '../assets/images/noitem.png';
 import Product290 from '../assets/images/staticproducts/DpofirsSmartBand/1.webp';
+import Product296 from '../assets/images/staticproducts/PushUpBoard/1.webp';
 
 
 const DESKTOP_COLUMNS = 5;
 const MOBILE_COLUMNS = 2;
 
 const staticProducts = [
+   {
+    id: "15-in-1-push-up-board-home-workout-fitness-rack",
+    name: "15 in 1 Push Up Board Portable Home Workout Fitness Rack",
+    price: "59.00",
+    regular_price: "99.00",
+    sale_price: "59.00",
+    images: [{ src: Product296 }],
+    path: "/products/15-in-1-push-up-board-home-workout-fitness-rack",
+    rating: 4,
+    reviews: 5,
+    sold: 46,
+  },
    {
     id: "smart-band-fitness-tracker-black",
     name: "Smart Band Fitness Tracker",

@@ -275,6 +275,10 @@ import Product292 from "../assets/images/staticproducts/DpofirsSmartBand/3.webp"
 import Product293 from "../assets/images/staticproducts/DpofirsSmartBand/4.webp";
 import Product294 from "../assets/images/staticproducts/DpofirsSmartBand/5.webp";
 import Product295 from "../assets/images/staticproducts/DpofirsSmartBand/6.webp";
+import Product296 from "../assets/images/staticproducts/PushUpBoard/1.webp";
+import Product297 from "../assets/images/staticproducts/PushUpBoard/2.webp";
+import Product298 from "../assets/images/staticproducts/PushUpBoard/3.webp";
+import Product299 from "../assets/images/staticproducts/PushUpBoard/4.webp";
 
 
 
@@ -2391,9 +2395,6 @@ const staticProducts = [
   thumb1: Product179,
   thumb2: Product180,
   thumb3: Product181,
-  thumb4: Product182,
-  thumb5: Product183,
-  thumb6: Product184,
   thumb7: Product185,
   thumb8: Product186,
 
@@ -5519,6 +5520,201 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
     {
       text: "I mainly use it for counting steps and cycling. Easy to set up.",
       author: "Omar K. – Abu Dhabi",
+      stars: 5,
+    },
+  ],
+},
+// 15 in 1 push up board
+{
+  id: 559235,
+  name: "15 in 1 Push Up Board Portable Home Workout Fitness Rack",
+  slug: "15-in-1-push-up-board-home-workout-fitness-rack",
+  price: 59.00,
+  salePrice: 59.00,
+  regularPrice: 99.00,
+
+  description:
+    "Portable multifunctional push-up board for home workouts, designed to target chest, shoulders, back, arms, abs, and core with color-coded training positions.",
+
+  shortdesc:
+    "Foldable ABS push-up board with non-slip handles, color-coded muscle zones, and multiple grip positions for men and women.",
+
+  subdesc: "15-in-1 multifunction push-up system",
+  subdesc1: "Targets chest, shoulders, back, arms, abs, and core",
+  subdesc2: "Foldable and portable for home workouts",
+  subdesc3: "Non-slip handles and stable base",
+  subdesc4: "Suitable for beginners and daily fitness training",
+
+  image: Product296,
+  thumb1: Product296,
+  thumb2: Product297,
+  thumb3: Product298,
+  thumb4: Product299,
+
+  bundles: [
+    {
+      type: "Buy 1",
+      id: 559236,
+      name: "15 in 1 Push Up Board",
+      label: "Best for yourself",
+      discount: 0,
+      price: 59.00,
+      originalPrice: 99.00,
+      image: Product296,
+      slug: "15-in-1-push-up-board-home-workout-fitness-rack",
+    },
+    {
+      type: "Bundle of 2",
+      id: 559237,
+      name: "15 in 1 Push Up Board",
+      label: "Save AED 19",
+      discount: 16,
+      price: 99.00,
+      originalPrice: 118.00,
+      note: "Great for couples, workout partners, or gifting.",
+      mostPopular: true,
+      image: Product297,
+      slug: "15-in-1-push-up-board-home-workout-fitness-rack",
+    },
+    {
+      type: "Bundle of 3",
+      id: 559238,
+      name: "15 in 1 Push Up Board",
+      label: "Best value",
+      discount: 27,
+      price: 130.00,
+      originalPrice: 177.00,
+      note: "Best bundle price for family, friends, or small training groups.",
+      image: Product298,
+      slug: "15-in-1-push-up-board-home-workout-fitness-rack",
+    },
+  ],
+
+  BundleTitle: "BUY MORE, SAVE MORE",
+
+  section2contentTitle: "Train More Muscle Groups From One Compact Board",
+
+  section2contentDesc:
+    "The 15 in 1 push-up board makes home strength training simple with color-coded positions that help guide your hands to the right muscle focus.",
+
+  section2list: [
+    "Color-coded training zones help target chest, shoulders, back, arms, abs, and core.",
+    "Multiple grip positions support different push-up angles for a more complete workout.",
+    "Non-slip handles help reduce wrist strain and keep your hands steady.",
+    "Foldable portable design stores easily at home and travels well.",
+    "Durable ABS construction is made for repeated daily training.",
+    "Suitable for beginners, regular fitness users, men, and women.",
+  ],
+
+  section2contentPoints: [
+    "Free UAE Shipping",
+    "Cash on Delivery",
+    "15-Day Returns",
+    "Secure Checkout",
+  ],
+
+  section2image: Product297,
+
+  section3title: "Compact Equipment For Full-Body Push-Up Training",
+
+  section3image: Product298,
+
+  section3points: [
+    "Color-Coded Muscle Zones",
+    "Portable Foldable Design",
+    "Non-Slip Training Handles",
+    "Multiple Grip Positions",
+  ],
+
+  sectionProgressTitle: "Built For Everyday Home Workouts",
+
+  sectionProgressSubtitle: "Simple, compact, and easy to use",
+
+  sectionProgress: [
+    {
+      title: "Better Workout Focus",
+      desc: "Color-coded zones make it easier to train specific muscle groups.",
+      percent: 94,
+    },
+    {
+      title: "Wrist-Friendly Grip",
+      desc: "Raised handles help distribute pressure more comfortably.",
+      percent: 91,
+    },
+    {
+      title: "Space-Saving Design",
+      desc: "The foldable board stores easily after your workout.",
+      percent: 96,
+    },
+    {
+      title: "Beginner Friendly",
+      desc: "Clear handle positions make home training simple to follow.",
+      percent: 90,
+    },
+  ],
+
+  comparisonData: {
+    title: "Why Choose This Push Up Board?",
+    description:
+      "A practical home workout tool that gives you more training positions than standard push-up handles while taking up very little space.",
+
+    headers: ["Feature", "15 in 1 Push Up Board", "Basic Push-Up Handles"],
+
+    rows: [
+      { feature: "Color-coded muscle zones", lumineux: true, others: false },
+      { feature: "Multiple grip angles", lumineux: true, others: false },
+      { feature: "Foldable portable design", lumineux: true, others: false },
+      { feature: "Non-slip handles", lumineux: true, others: true },
+      { feature: "Targets upper body and core", lumineux: true, others: true },
+      { feature: "Easy home storage", lumineux: true, others: false },
+    ],
+  },
+
+  section5image: Product299,
+
+  Guaranteetitle: "15-Day Return Policy",
+
+  Guranteedesc:
+    "Order with confidence. If the push-up board is not right for your workout routine, you can return it within 15 days according to our return policy.",
+
+  Faq1Q: "What muscles can I train with this push-up board?",
+  fAQ1A:
+    "It is designed to help target chest, shoulders, back, arms, abs, and core using different handle positions.",
+
+  Faq2Q: "Is it suitable for beginners?",
+  fAQ2A:
+    "Yes. The color-coded zones make it easy for beginners to follow different workout positions and build strength gradually.",
+
+  Faq3Q: "Is the board foldable?",
+  fAQ3A:
+    "Yes. The board has a portable foldable design, making it easy to store at home or carry for workouts.",
+
+  Faq4Q: "What material is it made from?",
+  fAQ4A:
+    "The board is made from ABS plastic with non-slip handles and a stable base for everyday training.",
+
+  Faq5Q: "Do you offer bundle pricing?",
+  fAQ5A:
+    "Yes. One board is AED 59, a bundle of 2 is AED 99, and a bundle of 3 is AED 130.",
+
+  reviewsTitle: "What Customers Are Saying",
+
+  reviewsRating: 4.6,
+
+  reviews: [
+    {
+      text: "Easy to use at home and the grip positions make workouts feel more organized.",
+      author: "Khalid M. - Dubai",
+      stars: 5,
+    },
+    {
+      text: "Good value for home fitness. Folds away neatly after use.",
+      author: "Riya S. - Sharjah",
+      stars: 4,
+    },
+    {
+      text: "The handles feel stable and it helps me target different areas better than normal push-ups.",
+      author: "Naveed A. - Abu Dhabi",
       stars: 5,
     },
   ],
