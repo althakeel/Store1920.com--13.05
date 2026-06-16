@@ -281,6 +281,12 @@ import Product298 from "../assets/images/staticproducts/PushUpBoard/3.webp";
 import Product299 from "../assets/images/staticproducts/PushUpBoard/4.webp";
 
 
+import Product300 from "../assets/images/staticproducts/GameConsoleJ36/1.webp";
+import Product301 from "../assets/images/staticproducts/GameConsoleJ36/2.webp";
+import Product302 from "../assets/images/staticproducts/GameConsoleJ36/3.webp";
+import Product303 from "../assets/images/staticproducts/GameConsoleJ36/4.webp";
+
+
 
 
 
@@ -5716,6 +5722,201 @@ Most parents buy multiple strollers as their child grows. The Nexso 2-in-1 adapt
       text: "The handles feel stable and it helps me target different areas better than normal push-ups.",
       author: "Naveed A. - Abu Dhabi",
       stars: 5,
+    },
+  ],
+},
+// J36 Ultra portable retro game console
+{
+  id: 559254,
+  name: "J36 Ultra Portable Retro Game Console",
+  slug: "j36-ultra-portable-retro-game-console",
+  price: 219.00,
+  salePrice: 219.00,
+  regularPrice: 289.00,
+
+  description:
+    "Compact 3.5-inch portable retro game console with 20,000+ built-in games, 64GB memory card, 20+ supported emulator platforms, and a rechargeable 3000mAh battery.",
+
+  shortdesc:
+    "Portable handheld retro console with IPS screen, massive classic game library, 64GB storage, and long-lasting battery for travel-friendly gaming.",
+
+  subdesc: "20,000+ built-in classic games",
+  subdesc1: "3.5-inch IPS screen",
+  subdesc2: "64GB memory card included",
+  subdesc3: "3000mAh rechargeable battery",
+  subdesc4: "20+ supported emulator platforms",
+
+  image: Product300,
+  thumb1: Product300,
+  thumb2: Product301,
+  thumb3: Product302,
+  thumb4: Product303,
+
+  bundles: [
+    {
+      type: "Buy 1",
+      id: 559255,
+      name: "J36 Ultra Portable Retro Game Console",
+      label: "Best for yourself",
+      discount: 0,
+      price: 219.00,
+      originalPrice: 289.00,
+      image: Product300,
+      slug: "j36-ultra-portable-retro-game-console",
+    },
+    {
+      type: "Bundle of 2",
+      id: 559256,
+      name: "J36 Ultra Portable Retro Game Console",
+      label: "Save more",
+      discount: 8,
+      price: 369.00,
+      originalPrice: 438.00,
+      note: "Great for siblings, friends, or gifting.",
+      mostPopular: true,
+      image: Product301,
+      slug: "j36-ultra-portable-retro-game-console",
+    },
+    {
+      type: "Bundle of 3",
+      id: 559257,
+      name: "J36 Ultra Portable Retro Game Console",
+      label: "Best value",
+      discount: 12,
+      price: 489.00,
+      originalPrice: 657.00,
+      note: "Best bundle for family gaming or gifts.",
+      image: Product302,
+      slug: "j36-ultra-portable-retro-game-console",
+    },
+  ],
+
+  BundleTitle: "BUNDLE & SAVE",
+
+  section2contentTitle: "Pocket-Sized Retro Gaming Anywhere",
+
+  section2contentDesc:
+    "The J36 Ultra brings a huge retro game library into a compact handheld console, making it easy to play classic arcade, handheld, and console titles at home or on the go.",
+
+  section2list: [
+    "Preloaded with 20,000+ classic games for instant entertainment.",
+    "Supports 20+ emulator platforms across arcade, handheld, and home console formats.",
+    "3.5-inch IPS screen delivers clear colors and wide viewing angles.",
+    "64GB memory card gives plenty of room for a large game collection.",
+    "3000mAh rechargeable battery supports portable gaming during trips and daily use.",
+    "Lightweight handheld design fits easily into a pocket, backpack, or travel bag.",
+  ],
+
+  section2contentPoints: [
+    "Free UAE Shipping",
+    "Cash on Delivery",
+    "15-Day Returns",
+    "Secure Checkout",
+  ],
+
+  section2image: Product301,
+
+  section3title: "Classic Games, Modern Portable Convenience",
+
+  section3image: Product302,
+
+  section3points: [
+    "20,000+ Games",
+    "3.5-Inch IPS Display",
+    "64GB Storage",
+    "3000mAh Battery",
+  ],
+
+  sectionProgressTitle: "Why Gamers Love It",
+
+  sectionProgressSubtitle: "Built for quick play, travel, and nostalgia",
+
+  sectionProgress: [
+    {
+      title: "Huge Game Variety",
+      desc: "Thousands of retro titles across multiple classic platforms.",
+      percent: 96,
+    },
+    {
+      title: "Portable Play",
+      desc: "Compact handheld design is easy to carry anywhere.",
+      percent: 94,
+    },
+    {
+      title: "Clear Display",
+      desc: "IPS screen keeps gameplay sharp and vibrant.",
+      percent: 91,
+    },
+    {
+      title: "Longer Sessions",
+      desc: "Rechargeable 3000mAh battery supports extended play.",
+      percent: 90,
+    },
+  ],
+
+  comparisonData: {
+    title: "Why Choose J36 Ultra?",
+    description:
+      "A portable retro gaming console with built-in games, emulator support, storage, and a rechargeable battery in one compact device.",
+
+    headers: ["Feature", "J36 Ultra", "Basic Handheld Console"],
+
+    rows: [
+      { feature: "20,000+ built-in games", lumineux: true, others: false },
+      { feature: "20+ emulator platforms", lumineux: true, others: false },
+      { feature: "3.5-inch IPS display", lumineux: true, others: false },
+      { feature: "64GB memory card", lumineux: true, others: false },
+      { feature: "3000mAh rechargeable battery", lumineux: true, others: true },
+      { feature: "Travel-friendly handheld size", lumineux: true, others: true },
+    ],
+  },
+
+  section5image: Product303,
+
+  Guaranteetitle: "15-Day Return Policy",
+
+  Guranteedesc:
+    "Shop with confidence. You can return the console within 15 days according to our return policy if it is not the right fit.",
+
+  Faq1Q: "How many games are included?",
+  fAQ1A:
+    "The console is described as having 20,000+ built-in classic games across multiple retro gaming platforms.",
+
+  Faq2Q: "What screen size does it have?",
+  fAQ2A:
+    "It has a 3.5-inch IPS screen designed for clear, colorful handheld gameplay.",
+
+  Faq3Q: "Does it include storage?",
+  fAQ3A:
+    "Yes. It comes with a 64GB memory card for the built-in game library and storage.",
+
+  Faq4Q: "Is it rechargeable?",
+  fAQ4A:
+    "Yes. It includes a rechargeable 3000mAh battery for portable gaming.",
+
+  Faq5Q: "Are these the final images?",
+  fAQ5A:
+    "No. Current images are temporary placeholders and can be replaced with the final J36 Ultra product photos later.",
+
+  reviewsTitle: "What Customers Are Saying",
+
+  reviewsRating: 4.7,
+
+  reviews: [
+    {
+      text: "Great little console for travel. Lots of games and easy to carry.",
+      author: "Sameer K. - Dubai",
+      stars: 5,
+    },
+    {
+      text: "Bought it as a gift and the retro game collection was the best part.",
+      author: "Mina R. - Sharjah",
+      stars: 5,
+    },
+    {
+      text: "Nice handheld size and the screen is clear for classic games.",
+      author: "Arjun P. - Abu Dhabi",
+      stars: 4,
     },
   ],
 }

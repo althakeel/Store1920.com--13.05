@@ -30,12 +30,25 @@ import Product29 from '../assets/images/staticproducts/porodoband/3.webp';
 import NoItemImage from '../assets/images/noitem.png';
 import Product290 from '../assets/images/staticproducts/DpofirsSmartBand/1.webp';
 import Product296 from '../assets/images/staticproducts/PushUpBoard/1.webp';
+import Product300 from '../assets/images/staticproducts/GameConsoleJ36/1.webp';
 
 
 const DESKTOP_COLUMNS = 5;
 const MOBILE_COLUMNS = 2;
 
 const staticProducts = [
+   {
+    id: "j36-ultra-portable-retro-game-console",
+    name: "J36 Ultra Portable Retro Game Console",
+    price: "219.00",
+    regular_price: "289.00",
+    sale_price: "219.00",
+    images: [{ src: Product300 }],
+    path: "/products/j36-ultra-portable-retro-game-console",
+    rating: 5,
+    reviews: 18,
+    sold: 74,
+  },
    {
     id: "15-in-1-push-up-board-home-workout-fitness-rack",
     name: "15 in 1 Push Up Board Portable Home Workout Fitness Rack",

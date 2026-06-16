@@ -516,13 +516,8 @@ const AddressForm = ({ formData, onChange, onSubmit, onClose, saving, error, car
                   name="phone_number"
                   className="phone-input"
                   value={formData.shipping.phone_number || ""}
-                onChange={(e) => {
-                    const digits = normalizePhone(e.target.value);
-
-                    // IMPORTANT:
-                    // - Agar user 971 ya 0 type kare, hum truncate/strip nahi karenge (taake user confuse na ho)
-                    // - Agar user 5 se start kare, tab hum 9 digits max allow karenge
-                    const nextValue = digits.startsWith("5") ? digits.slice(0, 9) : digits;
+                  onChange={(e) => {
+                    const nextValue = normalizePhone(e.target.value).slice(0, 9);
 
                     onChange(
                       { target: { name: "phone_number", value: nextValue } },
@@ -532,7 +527,7 @@ const AddressForm = ({ formData, onChange, onSubmit, onClose, saving, error, car
                     const errorMsg = validateField("phone_number", nextValue);
                     setFormErrors((prev) => ({ ...prev, phone_number: errorMsg }));
                   }}
-                  maxLength={12}
+                  maxLength={9}
 
               
                   inputMode="numeric"
