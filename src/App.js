@@ -76,6 +76,7 @@ import MobileNavbar from './components/Mobile/MobileNavbar';
 import ChatBot from './components/sub/Chatbot';
 import CookiePopup from './components/common/CookiePopup';
 import PurchasePopup from './components/common/PurchasePopup';
+import FootballScoreWidget from './components/FootballScoreWidget';
 import LogoIcon from './assets/images/logo.webp';
 import AdsImage from './assets/images/ads/ads.webp'
 import NewUserBonusPopup from './components/common/newpopup';
@@ -440,6 +441,7 @@ const AppContent = () => {
           {shouldShowCookiePopup && <CookiePopup />}
        {/* <ChatBot /> */}
 {false && isHomePage && <NewUserBonusPopup />}
+              {isHomePage && <FootballScoreWidget />}
               {!onCheckoutPage && <Footer />}
 
            {isMobile &&
