@@ -3,7 +3,7 @@ import '../assets/styles/FootballScoreWidget.css';
 
 const SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 const REFRESH_MS = 30000;
-const UPCOMING_DAYS = 10;
+const RESULT_LOOKBACK_DAYS = 14;
 
 const toDateKey = (date) => {
   const year = date.getFullYear();
@@ -15,7 +15,7 @@ const toDateKey = (date) => {
 const getScoreboardUrl = () => {
   const start = new Date();
   const end = new Date();
-  end.setDate(start.getDate() + UPCOMING_DAYS);
+  start.setDate(end.getDate() - RESULT_LOOKBACK_DAYS);
   return `${SCOREBOARD_URL}?dates=${toDateKey(start)}-${toDateKey(end)}&limit=100`;
 };
 
@@ -75,11 +75,10 @@ const isLiveWorldCupMatch = (event) => {
   return status?.type?.state === 'in' && !status?.type?.completed;
 };
 
-const isUpcomingWorldCupMatch = (event) => {
+const isCompletedWorldCupMatch = (event) => {
   const competition = event?.competitions?.[0];
   const status = competition?.status || event?.status;
-  const kickoff = new Date(competition?.date || event?.date).getTime();
-  return status?.type?.state === 'pre' && Number.isFinite(kickoff) && kickoff >= Date.now();
+  return status?.type?.completed || status?.type?.state === 'post';
 };
 
 const TeamRow = ({ team, showScore }) => (
@@ -121,16 +120,16 @@ const FootballScoreWidget = () => {
           .filter(isLiveWorldCupMatch)
           .map(normalizeMatch)
           .filter(Boolean);
-        const upcomingMatches = (data.events || [])
-          .filter(isUpcomingWorldCupMatch)
+        const completedMatches = (data.events || [])
+          .filter(isCompletedWorldCupMatch)
           .map(normalizeMatch)
           .filter(Boolean)
-          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-        const nextMatches = liveMatches.length ? liveMatches : upcomingMatches.slice(0, 3);
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        const nextMatches = liveMatches.length ? liveMatches : completedMatches.slice(0, 3);
 
         if (mounted) {
           setMatches(nextMatches);
-          setMode(liveMatches.length ? 'live' : 'upcoming');
+          setMode(liveMatches.length ? 'live' : 'result');
           setActiveIndex((index) => (nextMatches.length ? index % nextMatches.length : 0));
         }
       } catch (error) {
@@ -164,6 +163,7 @@ const FootballScoreWidget = () => {
 
   const match = useMemo(() => matches[activeIndex], [matches, activeIndex]);
   const isLive = mode === 'live';
+  const isResult = mode === 'result';
 
   if (!match) return null;
 
@@ -175,17 +175,17 @@ const FootballScoreWidget = () => {
         onClick={() => setIsMinimized(false)}
         aria-label="Show FIFA World Cup score"
       >
-        <span className={`football-score-live-dot ${isLive ? '' : 'is-upcoming'}`} aria-hidden="true" />
-        <span>{isLive ? 'Live Score' : 'Next Match'}</span>
+        <span className={`football-score-live-dot ${isLive ? '' : 'is-result'}`} aria-hidden="true" />
+        <span>{isLive ? 'Live Score' : 'Latest Result'}</span>
       </button>
     );
   }
 
   return (
-    <aside className="football-score-widget" aria-label={isLive ? 'Live FIFA World Cup score' : 'Upcoming FIFA World Cup match'}>
+    <aside className="football-score-widget" aria-label={isLive ? 'Live FIFA World Cup score' : 'Latest FIFA World Cup result'}>
       <div className="football-score-header">
-        <span className={`football-score-live-dot ${isLive ? '' : 'is-upcoming'}`} aria-hidden="true" />
-        <span>{isLive ? 'FIFA World Cup Live' : 'Next FIFA World Cup'}</span>
+        <span className={`football-score-live-dot ${isLive ? '' : 'is-result'}`} aria-hidden="true" />
+        <span>{isLive ? 'FIFA World Cup Live' : 'Latest World Cup Result'}</span>
         <span className="football-score-time">{isLive ? match.clock || match.statusText : match.startTime || match.statusText}</span>
         <button
           type="button"
@@ -199,9 +199,8 @@ const FootballScoreWidget = () => {
       </div>
 
       <div className="football-score-body">
-        <TeamRow team={match.home} showScore={isLive} />
-        {!isLive && <div className="football-score-versus">vs</div>}
-        <TeamRow team={match.away} showScore={isLive} />
+        <TeamRow team={match.home} showScore={isLive || isResult} />
+        <TeamRow team={match.away} showScore={isLive || isResult} />
       </div>
 
       <div className="football-score-footer">
